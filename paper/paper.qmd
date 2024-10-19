@@ -88,44 +88,84 @@ ggpairs(numeric_data)
 ```
 
 
+
 ```{r}
+model <- data %>%
+  filter(numeric_grade >= 2.0, candidate_name == "Kamala Harris") %>%
+  lm(pct ~ numeric_grade + days_towards_election, data = .)
+
+# Get the summary of the model
+summary(model)
+```
+
+"pollster"                 
+"sponsors"                               
+"numeric_grade"             
+"pollscore"                 
+"methodology"               
+"transparency_score"       
+"state"                     
+"start_date"                
+"end_date"                 
+"sponsor_candidate"         
+"sponsor_candidate_party"        
+"question_id"               
+"sample_size"               
+"population", "population_full",
+"tracking", "notes"                     
+"source"                    
+"internal"                  
+"partisan"                 
+"race_id"                                 
+"ranked_choice_reallocated" 
+"ranked_choice_round"       
+"hypothetical"              
+"party"                    
+"answer"                   
+"candidate_name"            
+"pct"
+
+```{r}
+selected_columns <- c(
+  "pollster", 
+  "sponsors", 
+  "numeric_grade", 
+  "pollscore", 
+  "methodology", 
+  "transparency_score", 
+  "state", 
+  "start_date", 
+  "end_date", 
+  "sponsor_candidate", 
+  "sponsor_candidate_party", 
+  "question_id", 
+  "sample_size", 
+  "population", 
+  "population_full",
+  "tracking", 
+  "notes", 
+  "source", 
+  "internal", 
+  "partisan", 
+  "race_id", 
+  "ranked_choice_reallocated", 
+  "ranked_choice_round", 
+  "hypothetical", 
+  "party", 
+  "answer", 
+  "candidate_name", 
+  "pct"
+)
 data %>% 
-  select(numeric_grade, pollscore) %>% 
-  filter(complete.cases(.)) %>% 
-  cor()
-```
-
-```{r}
-sort(unique(data$sample_size)) %>% 
-  summary()
-```
-
-```{r}
-data %>% 
-  filter(numeric_grade >= 2.0) %>% 
-  skim()
+  select(all_of(selected_columns))
 ```
 
 
 
 
-## Overview
-
-We use the statistical programming language R [@citeR].... Our data [@shelter].... Following @tellingstories, we consider...
-
-Overview text
-
-## Measurement
-	
-Some paragraphs about how we go from a phenomena in the world to an entry in the dataset.
-
-## Outcome variables
-
-Add graphs, tables and text. Use sub-sub-headings for each outcome variable or update the subheading to be singular.
 
 
 
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
 
 ```{r}
 #| echo: false
@@ -133,15 +173,6 @@ Some of our data is of penguins (@fig-bills), from @palmerpenguins.
 #| warning: false
 ```
 
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
-
-```
-
-Talk way more about it. 
 
 ## Predictor variables
 
