@@ -23,6 +23,8 @@ bibliography: references.bib
 library(tidyverse)
 library(skimr)
 library(knitr)
+library(GGally)
+library(dplyr)
 ```
 
 
@@ -56,12 +58,8 @@ sponsor_candidate, sponsor_candidate_party
 
 sample_size
 
-```{r}
-unique(data$election_date)
-```
-
 ```{r mutate days_towards_election}
-data <- data %>% 
+data_a <- data %>% 
   select(end_date) %>% 
   mutate(end_date = as.Date(end_date, format="%m/%d/%y"))
 
@@ -69,29 +67,16 @@ data <- data %>%
 election_date <- as.Date("11/5/24", format="%m/%d/%y")
 
 # Calculate the days towards the election date
-data <- data %>% 
-  mutate(days_towards_election = as.numeric(difftime(end_date,election_date, units = "days")))
-```
-
-```{r}
-data_a <- data %>% 
-  mutate(end_date = as.Date(end_date, format="%m/%d/%y"))
-
-# Define the election date
-election_date <- as.Date("11/5/24", format="%m/%d/%y")
-
-# Calculate the days towards the election date
 data_a <- data_a %>% 
-  mutate(days_towards_election = as.numeric(difftime(end_date,election_date, units = "days")))
+  mutate(days_towards_election = as.numeric(difftime(election_date, end_date, units = "days")))
+
+data$days_towards_election = data_a$days_towards_election
 ```
 
-```{r}
+```{r pairplot}
+#| warning: false
+#| message: false
 
-# Load necessary libraries
-library(GGally)
-library(dplyr)
-
-# Select only numerical columns from your dataframe
 numeric_data <- data %>% 
   select(where(is.numeric)) %>% 
   select(numeric_grade, pollscore, transparency_score, sample_size, pct) %>% 
@@ -100,7 +85,6 @@ numeric_data <- data %>%
 
 # Create a pair plot
 ggpairs(numeric_data)
-
 ```
 
 
@@ -122,10 +106,7 @@ data %>%
   skim()
 ```
 
-```{r}
-data %>%
-  
-```
+
 
 
 ## Overview
