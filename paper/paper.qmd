@@ -21,6 +21,8 @@ bibliography: references.bib
 #| message: false
 
 library(tidyverse)
+library(skimr)
+library(knitr)
 ```
 
 
@@ -34,9 +36,97 @@ Results paragraph
 
 Why it matters paragraph
 
-Telegraphing paragraph: The remainder of this paper is structured as follows. @sec-data....
+Telegraphing paragraph: The remainder of this paper is structured as follows. 
 
-# Data {#sec-data}
+```{r}
+data <- read.csv("../data/01-raw_data/president_polls.csv")
+skim(data)
+
+```
+
+```{r}
+colnames(data)
+```
+
+pollster
+
+pollscore, numeric_grade
+
+sponsor_candidate, sponsor_candidate_party
+
+sample_size
+
+```{r}
+unique(data$election_date)
+```
+
+```{r mutate days_towards_election}
+data <- data %>% 
+  select(end_date) %>% 
+  mutate(end_date = as.Date(end_date, format="%m/%d/%y"))
+
+# Define the election date
+election_date <- as.Date("11/5/24", format="%m/%d/%y")
+
+# Calculate the days towards the election date
+data <- data %>% 
+  mutate(days_towards_election = as.numeric(difftime(end_date,election_date, units = "days")))
+```
+
+```{r}
+data_a <- data %>% 
+  mutate(end_date = as.Date(end_date, format="%m/%d/%y"))
+
+# Define the election date
+election_date <- as.Date("11/5/24", format="%m/%d/%y")
+
+# Calculate the days towards the election date
+data_a <- data_a %>% 
+  mutate(days_towards_election = as.numeric(difftime(end_date,election_date, units = "days")))
+```
+
+```{r}
+
+# Load necessary libraries
+library(GGally)
+library(dplyr)
+
+# Select only numerical columns from your dataframe
+numeric_data <- data %>% 
+  select(where(is.numeric)) %>% 
+  select(numeric_grade, pollscore, transparency_score, sample_size, pct) %>% 
+  filter(complete.cases(.))
+
+
+# Create a pair plot
+ggpairs(numeric_data)
+
+```
+
+
+```{r}
+data %>% 
+  select(numeric_grade, pollscore) %>% 
+  filter(complete.cases(.)) %>% 
+  cor()
+```
+
+```{r}
+sort(unique(data$sample_size)) %>% 
+  summary()
+```
+
+```{r}
+data %>% 
+  filter(numeric_grade >= 2.0) %>% 
+  skim()
+```
+
+```{r}
+data %>%
+  
+```
+
 
 ## Overview
 
