@@ -41,36 +41,13 @@ Why it matters paragraph
 Telegraphing paragraph: The remainder of this paper is structured as follows. 
 
 ```{r}
-data <- read.csv("../data/01-raw_data/president_polls.csv")
+data <- read.csv("../data/02-analysis_data/cleaned_president_polls.csv")
 skim(data)
 
 ```
 
 ```{r}
 colnames(data)
-```
-
-pollster
-
-pollscore, numeric_grade
-
-sponsor_candidate, sponsor_candidate_party
-
-sample_size
-
-```{r mutate days_towards_election}
-data_a <- data %>% 
-  select(end_date) %>% 
-  mutate(end_date = as.Date(end_date, format="%m/%d/%y"))
-
-# Define the election date
-election_date <- as.Date("11/5/24", format="%m/%d/%y")
-
-# Calculate the days towards the election date
-data_a <- data_a %>% 
-  mutate(days_towards_election = as.numeric(difftime(election_date, end_date, units = "days")))
-
-data$days_towards_election = data_a$days_towards_election
 ```
 
 ```{r pairplot}
@@ -124,47 +101,6 @@ summary(model)
 "answer"                   
 "candidate_name"            
 "pct"
-
-```{r}
-selected_columns <- c(
-  "pollster", 
-  "sponsors", 
-  "numeric_grade", 
-  "pollscore", 
-  "methodology", 
-  "transparency_score", 
-  "state", 
-  "start_date", 
-  "end_date", 
-  "sponsor_candidate", 
-  "sponsor_candidate_party", 
-  "question_id", 
-  "sample_size", 
-  "population", 
-  "population_full",
-  "tracking", 
-  "notes", 
-  "source", 
-  "internal", 
-  "partisan", 
-  "race_id", 
-  "ranked_choice_reallocated", 
-  "ranked_choice_round", 
-  "hypothetical", 
-  "party", 
-  "answer", 
-  "candidate_name", 
-  "pct"
-)
-data %>% 
-  select(all_of(selected_columns))
-```
-
-
-
-
-
-
 
 
 ```{r}
