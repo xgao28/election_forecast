@@ -25,6 +25,7 @@ election_date <- as.Date("11/5/24", format="%m/%d/%y")
 data_a <- data_a %>% 
   mutate(days_towards_election = as.numeric(difftime(election_date, end_date, units = "days")))
 
+data$days_towards_election <- data_a$days_towards_election
 
 # TODO: mutate expected_vote
 filtered_data <- data %>%
