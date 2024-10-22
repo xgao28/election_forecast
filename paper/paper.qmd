@@ -41,66 +41,40 @@ Why it matters paragraph
 Telegraphing paragraph: The remainder of this paper is structured as follows. 
 
 ```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
 data <- read.csv("../data/02-analysis_data/cleaned_president_polls.csv")
 skim(data)
-
 ```
 
-```{r}
-colnames(data)
-```
 
 ```{r pairplot}
 #| warning: false
 #| message: false
-
+#| echo: false
 numeric_data <- data %>% 
   select(where(is.numeric)) %>% 
-  select(numeric_grade, pollscore, transparency_score, sample_size, pct) %>% 
+  select(numeric_grade, pollscore, transparency_score) %>% 
   filter(complete.cases(.))
 
 
 # Create a pair plot
-ggpairs(numeric_data)
+ggpairs(numeric_data) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8, margin = margin(t = 10)),
+    axis.text.y = element_text(size = 8, margin = margin(r = 10)),
+    strip.text = element_text(size = 6)  # Adjusts the size of variable name tags
+  )
 ```
 
 
 
-```{r}
-model <- data %>%
-  filter(numeric_grade >= 2.0, candidate_name == "Kamala Harris") %>%
-  lm(pct ~ numeric_grade + days_towards_election, data = .)
 
-# Get the summary of the model
-summary(model)
-```
 
-"pollster"                 
-"sponsors"                               
-"numeric_grade"             
-"pollscore"                 
-"methodology"               
-"transparency_score"       
-"state"                     
-"start_date"                
-"end_date"                 
-"sponsor_candidate"         
-"sponsor_candidate_party"        
-"question_id"               
-"sample_size"               
-"population", "population_full",
-"tracking", "notes"                     
-"source"                    
-"internal"                  
-"partisan"                 
-"race_id"                                 
-"ranked_choice_reallocated" 
-"ranked_choice_round"       
-"hypothetical"              
-"party"                    
-"answer"                   
-"candidate_name"            
-"pct"
+
+
 
 
 ```{r}
@@ -117,7 +91,30 @@ Add graphs, tables and text.
 Use sub-sub-headings for each outcome variable and feel free to combine a few into one if they go together naturally.
 
 
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+candidate_names <- c("Kamala Harris", "Donald Trump")
 
+# Define a function to fit the model and return the summary for each candidate
+fit_model <- function(candidate) {
+  candidate_data <- data %>%
+    filter(candidate_name == candidate)
+  
+  model <- lm(pct ~ pollscore + transparency_score + days_towards_election, data = candidate_data)
+  
+  summary(model)
+}
+
+# Apply the function to each distinct candidate name and store the summaries in a list
+model_summaries <- candidate_names %>%
+  set_names() %>%
+  map(fit_model)
+
+# Print model summaries for each candidate
+model_summaries
+```
 
 
 
