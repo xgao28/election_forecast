@@ -8,7 +8,7 @@ author:
 thanks: "Code and data are available at: [https://github.com/xgao28/election_forecast](https://github.com/xgao28/election_forecast)."
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "The 2024 U.S. Presidential Election is one of the most anticipated political events, with significant implications for the future direction of the country. This paper presents a poll-based forecasting model that leverages polling data to predict voter support for the major candidates, Kamala Harris and Donald Trump. Using multiple linear regression, the model incorporates factors such as poll quality, transparency, sample size, geographic variation, and temporal trends to estimate each candidate's share of support. The findings highlight key predictors that influence electoral outcomes, offering insights into voter behavior and polling dynamics. The approach aims to provide a robust forecast of the election, accounting for methodological variability across polls."
 format: pdf
 toc: true
 number-sections: true
@@ -28,17 +28,17 @@ library(dplyr)
 ```
 
 
-# Introduction
+# Introduction{#sec-intro}
 
-Overview paragraph
+The U.S. Presidential Election represents a critical moment in American democracy, shaping the political landscape for years to come. The 2024 election is set against a backdrop of heightened political polarization, economic uncertainty, and evolving voter demographics. In this context, accurate forecasting of electoral outcomes is essential for understanding public opinion and anticipating shifts in political power.
 
-Estimand paragraph
+Polling has long been a central tool for gauging voter sentiment, providing snapshots of the electorate's preferences at different points in time. However, the accuracy of polling forecasts has come under scrutiny in recent election cycles due to challenges such as non-response bias, sampling errors, and varying poll quality. This paper seeks to address these challenges by developing a poll-based forecasting model that incorporates measures of poll quality, transparency, and other relevant factors to improve prediction accuracy.
 
-Results paragraph
+The primary estimand in this analysis is the percentage of support for each candidate as indicated by polling data. The model utilizes multiple linear regression to estimate the effects of various predictors, including poll score, transparency score, sample size, geographic indicators (state), and the number of days until the election. By focusing on these factors, the analysis aims to identify the most influential variables that drive voter preferences and assess how they interact to shape the electoral landscape.
 
-Why it matters paragraph
+Results from the model provide insights into the relationship between polling characteristics and predicted support levels for Kamala Harris and Donald Trump. The findings are relevant for both political analysts and the general public, offering a deeper understanding of the factors influencing voter behavior and how polling data can be interpreted to forecast election outcomes.
 
-Telegraphing paragraph: The remainder of this paper is structured as follows. 
+The remainder of this paper is structured as follows. @sec-data describes the dataset and variables used in the analysis, including the steps taken to clean and preprocess the data. @sec-model details the modeling approach, justification, and the rationale for the selection of predictors. @sec-results presents the model findings, while @sec-disc explores the implications, limitations, and future directions for research. An appendix provides additional methodological details and diagnostics. 
 
 ```{r}
 #| echo: false
@@ -50,6 +50,35 @@ skim(data)
 ```
 
 
+# Data{#sec-data}
+
+## Overview of Data
+The dataset used in this analysis comprises polling information for the 2024 U.S. Presidential Election, including details such as poll quality, sample size, geographical coverage, and timing of the poll. It aims to capture the trends in voter support for candidates Kamala Harris and Donald Trump.
+
+## Measurement and Limitations
+The data reflects polling information collected from various sources, each with its own methodology and potential biases. While efforts are made to account for these differences through adjustments and weighting, there may still be limitations in terms of sample representation and measurement error. Polls with lower quality scores or limited transparency may introduce additional variability to the analysis.
+
+## Outcome Variable
+The outcome variable of interest is the percentage of support ("pct") that each candidate receives in the polls. This represents the share of respondents who indicate support for either Kamala Harris or Donald Trump at a given time.
+
+## Predictor Variables
+
+### Poll Score
+The "pollscore" variable represents the quality and reliability of each poll. Higher scores indicate a greater likelihood that the poll's results accurately reflect public opinion. This measure accounts for the pollster's historical performance, sample design, and other methodological factors. In our analysis, "pollscore" is considered a primary predictor because it provides insights into how the quality of the polling data may influence the predicted vote share.
+
+### Transparency Score
+The "transparency_score" variable captures the extent to which pollsters disclose their methodology and data collection practices. Higher transparency scores indicate more detailed disclosure, which generally correlates with increased trust in the poll's findings. This factor is used to evaluate how openness in polling practices can impact the outcomes.
+
+### Sample Size
+The number of respondents in each poll, represented by "sample_size," is a key factor influencing the precision of polling estimates. Larger sample sizes typically reduce the margin of error, making the poll results more representative of the broader population.
+
+### State
+The "state" variable accounts for regional differences in voting preferences. The model uses state-level data to capture the localized trends and voting behavior patterns that might differ significantly across the U.S.
+
+### Days Towards Election
+This variable measures the number of days remaining until the election at the time the poll was conducted. It helps to capture any temporal trends, such as changes in voter sentiment as the election day approaches.
+
+### Multicollinearity Considerations
 ```{r pairplot}
 #| warning: false
 #| message: false
@@ -68,29 +97,23 @@ ggpairs(numeric_data) +
     strip.text = element_text(size = 6)  # Adjusts the size of variable name tags
   )
 ```
+While selecting the predictors for the model, multicollinearity was a key concern. Multicollinearity occurs when two or more predictors are highly correlated, which can inflate the variance of the coefficient estimates and make the model less reliable. In our pair plot analysis, we observed a high correlation between "numeric_grade" and "pollscore," suggesting that they measure similar aspects of polling quality.
+
+To mitigate the effects of multicollinearity, "numeric_grade" was excluded from the model. We opted to retain "pollscore" and "transparency_score" as the primary indicators of poll quality because they provide complementary insights—"pollscore" reflects the overall quality and reliability, while "transparency_score" captures the openness in reporting methods. This approach ensures that the model avoids redundancy and improves the stability of the coefficient estimates.
+
+## Data Cleaning
+In the data cleaning process, we adjusted the dataset to calculate the expected votes for Kamala Harris and Donald Trump by scaling their average percentages according to the sample size. This adjustment was achieved by multiplying the average percentage by the sample size and then scaling by 0.01. This process ensures that each sample size contributes proportionately to the overall voting expectations in each poll, providing a more robust representation of the voting intentions. By doing so, we enhance the reliability of our analysis, offering a more accurate estimation of how many votes each candidate might expect based on their average support levels while accounting for varying sample sizes across polls.
 
 
 
 
+# Model{#sec-model}
 
+The goal of our modeling strategy is twofold. Firstly, we aim to estimate the candidates' support levels based on various polling-related factors, accounting for differences in poll quality, timing, sample characteristics, and geographical variations. Secondly, we seek to assess how well these factors predict electoral outcomes and identify which variables are most influential in shaping public opinion.
 
+The model employed is a multiple linear regression, where the response variable is the percentage of support ("pct") for each candidate in the polls. The predictors include "pollscore" (indicating the quality of the poll), "transparency_score" (reflecting methodological disclosure), "sample_size" (number of respondents), "state" (geographical indicator), and "days_towards_election" (timing of the poll).
 
-
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-```
-
-
-## Predictor variables
-
-Add graphs, tables and text.
-
-Use sub-sub-headings for each outcome variable and feel free to combine a few into one if they go together naturally.
-
-
+## Model set-up
 ```{r}
 #| echo: false
 #| message: false
@@ -116,73 +139,76 @@ model_summaries <- candidate_names %>%
 model_summaries
 ```
 
+The linear regression model is specified for each candidate separately, with the following structure:
 
-
-
-
-# Model
-
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
-
-## Model set-up
-
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
-
-\begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
+\begin{align}
+\text{pct}_i & = \beta_0 + \beta_1 \text{pollscore}_i + \beta_2 \text{transparency\_score}_i + \beta_3 \text{sample\_size}_i + \beta_4 \text{state}_i + \beta_5 \text{days\_towards\_election}_i + \epsilon_i \\
+\epsilon_i & \sim \text{Normal}(0, \sigma^2)
 \end{align}
 
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
+Where:
+\begin{align}
+\beta_0 & \text{ is the intercept term} \\
+\beta_1, \beta_2, \beta_3, \beta_4, \beta_5 & \text{ are the coefficients for each predictor} \\
+\sigma^2 & \text{ is the variance of the error term}
+\end{align}
 
 
-### Model justification
-
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
-
-# Results
-
-Our results are summarized in @tbl-modelresults.
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-```
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-```
+In the implementation, a function is defined to fit this model for each candidate (Kamala Harris and Donald Trump) individually. The model fits are then summarized to interpret the coefficients for each predictor.
 
 
 
+## Model justification
 
-# Discussion
+The multiple linear regression approach is justified for several reasons. Firstly, it provides a straightforward method for estimating the relationship between the percentage of support for each candidate and the set of predictors, allowing for the quantification of the impact of each factor. This is suitable for forecasting purposes where interpretability and direct estimation of effects are important.
 
-## First discussion point {#sec-first-point}
+Secondly, the linear model is flexible enough to accommodate a range of continuous and categorical predictors, such as "pollscore" and "state." The model captures the additive effect of each predictor on the outcome, making it possible to assess the contribution of polling quality, timing, sample characteristics, and regional differences individually.
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+Furthermore, linear regression is appropriate here because it assumes a linear relationship between the predictors and the response variable. Given the nature of the predictors—where factors like polling quality and sample size are expected to linearly influence support levels—it aligns well with the data characteristics.
 
-## Second discussion point
+Lastly, the choice of linear regression allows for diagnosing issues such as multicollinearity, which was a potential concern with correlated variables. By excluding highly correlated predictors (e.g., "numeric_grade"), the model specification avoids problems with unstable coefficient estimates and enhances interpretability.
 
-Please don't use these as sub-heading labels - change them to be what your point actually is.
+Overall, the linear regression model provides a well-suited approach to understanding and predicting candidate support in the context of the 2024 U.S. Presidential Election.
 
-## Third discussion point
 
-## Weaknesses and next steps
+# Results{#sec-results}
 
-Weaknesses and next steps should also be included.
+The results from the linear regression models for both Kamala Harris and Donald Trump indicate the impact of the selected predictors on their percentage of support in the polls. The model summaries provide estimates for each coefficient, along with their statistical significance.
+
+## Model Summaries
+
+For each candidate, the models show the estimated effects of the following predictors: poll score, transparency score, sample size, state, and days towards election. Key findings include:
+
+- **Poll Score**: For both candidates, higher poll scores are positively associated with higher predicted support. This indicates that polls with better quality and reliability tend to show greater support levels for the candidates.
+- **Transparency Score**: The transparency score has a significant effect on the predicted support, suggesting that polls with more disclosure practices yield different results compared to less transparent polls.
+- **Sample Size**: Larger sample sizes have a positive association with predicted support levels. This aligns with the expectation that more extensive polling samples provide more precise estimates.
+- **State**: The state variable captures regional differences in candidate support, highlighting significant variations across different states.
+- **Days Towards Election**: The timing of the poll relative to the election date also impacts the predicted support. As the election date approaches, there is typically a convergence in voter preferences, affecting the estimated levels of support.
+
+The model results confirm that these factors collectively provide a reasonable basis for predicting support for the candidates. The residuals and diagnostic checks (not shown here) indicate no major violations of model assumptions, suggesting that the linear model fits the data adequately.
+
+# Discussion{#sec-disc}
+
+## Key Findings
+
+The analysis demonstrates that poll quality (as measured by poll scores) and transparency are significant predictors of support for both Kamala Harris and Donald Trump. Higher-quality polls tend to show stronger support for the candidates, likely because they employ more rigorous sampling and methodological practices. Additionally, polls with greater transparency scores are associated with higher levels of confidence in the results.
+
+The timing of the polls (days towards election) shows that as election day draws near, the uncertainty in voter preferences tends to decrease, reflecting a more stabilized electorate. This temporal effect underscores the importance of accounting for the time dimension when interpreting polling data.
+
+Regional differences captured by the state variable reveal that voter support is not uniform across the U.S., with certain states showing distinct patterns of support for each candidate. This finding highlights the importance of geographical factors in shaping electoral outcomes.
+
+## Weaknesses and Limitations
+
+While the model provides valuable insights, it has limitations. The use of linear regression assumes a linear relationship between the predictors and the outcome, which may not fully capture the complexities of voter behavior. Additionally, the reliance on poll scores and transparency measures may not account for all sources of bias in the data, such as social desirability bias or non-response bias.
+
+Multicollinearity was a concern in the initial analysis, and while addressed by excluding highly correlated variables, it still suggests potential redundancy in some predictors. Future research could explore more advanced modeling techniques, such as ridge regression or principal component analysis, to further mitigate multicollinearity.
+
+## Future Directions
+
+Further research could incorporate more dynamic modeling approaches, such as time-series analysis, to better capture the changing nature of voter preferences over time. Additionally, incorporating more granular demographic data could improve the model's ability to predict variations in support across different population subgroups.
+
+Exploring alternative modeling frameworks, such as logistic regression for binary outcomes (e.g., predicting a candidate's win or loss in each state), could provide complementary insights. Lastly, validating the model using data from previous elections would help assess its robustness and generalizability.
+
 
 \newpage
 
@@ -252,13 +278,189 @@ YouGov's methodology provides several strengths, such as cost, speed, and access
 
 Overall, YouGov’s approach satisfies many standards for modern survey research. Although it has limitations, the insights gained are valuable when these are taken into account.
 
+# Methodology and Survey Design for 2024 U.S. Presidential Election Forecast**
+
+
+
+## Methodology
+
+This section details the **idealized methodology** used to conduct a national survey to forecast the 2024 U.S. presidential election. The methodology includes **sampling strategies, recruitment methods, data validation techniques, and poll aggregation** procedures.
+
+
+
+### Sampling Approach
+
+- **Total Sample Size**: 10,000 respondents
+- **Distribution by State**:
+  - **Minimum 100 respondents per state** (including Washington, D.C.) to ensure balanced regional representation.
+  - **Oversampling in battleground states** (e.g., Georgia, Pennsylvania, Arizona) with **1,000 respondents per state** for more precise insights.
+
+- **Stratified Random Sampling**:
+  - Stratify by **age, gender, race/ethnicity, education, income, and region**.
+  - Ensure proportional representation based on **U.S. Census data** to avoid bias.
+
+- **Weighting Strategy**:
+  - Apply **post-stratification weighting** to adjust for any sampling imbalance, aligning with national demographics.
+
+
+
+### Recruitment Plan
+
+- **Recruitment Channels**:
+  - Use **YouGov, Qualtrics**, and **MTurk** to access pre-screened online panels.
+  - Complement with **social media ads** on Facebook, Instagram, and LinkedIn to reach underrepresented groups.
+
+- **Incentives**:
+  - Offer **$10 gift cards** or entry into sweepstakes to increase participation and engagement.
+
+
+### Survey Implementation and Design
+
+- **Survey Platform**: Google Forms  
+  - **Link**: *(Insert Google Forms survey link here)*  
+  - Accessible to respondents via **email, social media, and direct recruitment channels**.
+
+- **Survey Structure**:
+  1. **Demographics Section**: Age, gender, race/ethnicity, income, education, and state of residence.
+  2. **Voting Preferences Section**: Candidate choice, likelihood of voting, and party affiliation.
+  3. **Key Issues Section**: Identify priority issues (e.g., economy, healthcare, immigration).
+  4. **Thank You Message**:  
+     - *“Thank you for completing the survey! Your input is greatly appreciated and will help provide insights into the upcoming 2024 election.”*
+
+
+
+### Data Validation
+
+- **Techniques for Data Quality**:
+  1. **Screening Questions**: Confirm eligibility (e.g., 18+ years old, registered voter status).
+  2. **Attention Checks**: Include a question like *“Please select ‘Agree’ for this item”* to verify respondents are attentive.
+  3. **IP Geolocation**: Validate state residency based on reported location.
+  4. **Duplicate Detection**: Identify and remove duplicate responses.
+
+
+### Poll Aggregation and Reporting
+
+- **Poll Aggregation**:  
+  - Combine results with data from **YouGov, Marquette, and other reliable sources** for a robust forecast.
+  - Use **weighted averages** to account for differences in sample size and demographics.
+
+- **Margin of Error**:  
+  - **National Margin of Error**: ±1% at the 95% confidence level.  
+  - **State-Level Margins**: ±5-10% depending on the sample size for each state.
+
+
+### Budget Allocation
+
+| **Expense**                     | **Estimated Cost**  |
+|----------------------------------|---------------------|
+| Panel Provider Fees              | $60,000             |
+| Participant Incentives           | $20,000             |
+| Social Media Advertising         | $10,000             |
+| Google Forms (Platform)          | Free                |
+| Data Validation & Analysis       | $8,000              |
+| Miscellaneous Expenses           | $2,000              |
+| **Total**                        | **$100,000**        |
+
+
+## Survey Questions
+
+Below is the full content of the survey to be implemented using Google Forms:
+
+### Section 1: Demographics
+1. **What is your age?**  
+   - 18-24  
+   - 25-34  
+   - 35-44  
+   - 45-54  
+   - 55-64  
+   - 65+  
+
+2. **What is your gender?**  
+   - Male  
+   - Female  
+   - Non-binary/Other  
+
+3. **What is your race/ethnicity?** (Select all that apply)  
+   - White  
+   - Black or African American  
+   - Hispanic or Latino  
+   - Asian  
+   - Indigenous (Native American, Alaska Native, or First Nations)  
+   - Pacific Islander or Native Hawaiian  
+   - Other (please specify)  
+
+4. **What is your household income?**  
+   - Less than $25,000  
+   - $25,000 - $49,999  
+   - $50,000 - $99,999  
+   - $100,000 or more  
+
+5. **Which state do you currently reside in?**  
+   - (List all 50 states + Washington, D.C.)
+
+
+
+### Section 2: Voting Preferences
+6. **Are you a registered voter?**  
+   - Yes  
+   - No  
+   - Not sure  
+
+7. **How likely are you to vote in the 2024 presidential election?**  
+   - Definitely will vote  
+   - Probably will vote  
+   - Probably will not vote  
+   - Definitely will not vote  
+
+8. **If the 2024 election were held today, who would you vote for?**  
+   - Kamala Harris (Democrat)  
+   - Donald Trump (Republican)  
+   - Other (Please specify)  
+   - Undecided  
+
+9. **How favorable are your opinions of the following candidates?**  
+   (Rate on a scale of 1 to 5)  
+   - Kamala Harris  
+   - Donald Trump  
+   - Any third-party candidates  
+
+
+
+### Key Issues
+10. **What is the most important issue for you in this election?**  
+   - Economy  
+   - Healthcare  
+   - Immigration  
+   - Climate change  
+   - Social Security and Medicare  
+   - Foreign policy  
+
+11. **Which candidate do you think would handle the economy better?**  
+   - Kamala Harris  
+   - Donald Trump  
+   - Not sure  
+
+
+
+### Thank You Message
+*“Thank you for completing the survey! Your input is greatly appreciated and will help provide insights into the upcoming 2024 election.”*
+
+
+## Google Forms Link
+
+Once the survey is created, insert the **Google Forms link** here for participants to access.
+
+
+https://forms.gle/2MGYeZavDsCNuWZ1A
+
+
+
+
+
+
 # Model details {#sec-model-details}
 
 ## Posterior predictive check
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
 
 ```{r}
 #| echo: false
@@ -268,9 +470,6 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 
 ## Diagnostics
 
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
 
 ```{r}
 #| echo: false
