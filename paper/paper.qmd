@@ -190,11 +190,70 @@ Weaknesses and next steps should also be included.
 \newpage
 
 \appendix
-
 # Appendix {-}
 
+# Pollster Methodology Overview and Evaluation: YouGov
 
-# Additional data details
+YouGov is a global public opinion and data company that conducts online surveys on a variety of topics, including politics, social issues, and consumer behavior. Founded in 2000, YouGov is known for leveraging technology to conduct large-scale online surveys, combining traditional sampling principles with advanced data analytics to measure public opinion efficiently.
+
+## Population, Frame, and Sample
+
+- **Population**: The population refers to the group of individuals whose opinions YouGov aims to measure. For political surveys, this often includes eligible voters in a specific country (e.g., registered U.S. voters). Other surveys may focus on specific demographic groups, such as young adults or industry professionals.
+
+- **Frame**: The frame is a list from which the sample is drawn. YouGov uses its online panel, consisting of millions of registered users worldwide. For specific surveys, the frame is the subset of panel members matching desired criteria (e.g., age, location).
+
+- **Sample**: The sample is a subset of the population selected to participate in a survey. Political surveys often involve 1,000-3,000 respondents, weighted to match the demographic characteristics of the broader population.
+
+## Sample Recruitment
+
+- **Recruitment Process**: YouGov recruits panel members via online advertisements, partnerships, and social media. Individuals join the panel by registering on the YouGov website and completing a demographic profile.
+
+- **Incentives**: Panel members earn rewards through a points-based system, which can be redeemed for cash, gift cards, or other benefits.
+
+## Sampling Approach and Trade-offs
+
+- **Sampling Method**: YouGov employs a non-probability sampling approach using quota sampling combined with statistical weighting. Respondents are selected to fill quotas based on demographics (age, gender, education, region) that align with the population.
+
+- **Advantages of Quota Sampling**:
+  - **Cost-effective**: Less expensive than random sampling due to online recruitment and automation.
+  - **Speed**: Enables quick data collection, crucial for tracking fast-changing opinions.
+  - **Targeted Sampling**: Can focus on hard-to-reach populations or specific demographics.
+
+- **Limitations of Quota Sampling**:
+  - **Selection Bias**: Self-selection into the panel may introduce biases, as panel members might differ from the general population (e.g., more engaged online).
+  - **Generalizability Issues**: Weighting may not fully adjust for attitudinal differences between panelists and the public.
+
+## Handling Non-Response
+
+- **Mitigation Strategies**: YouGov reduces non-response bias with flexible survey completion times and reminder emails. Statistical weighting adjusts for demographic discrepancies caused by non-response.
+
+- **Weighting**: Survey data are weighted to match demographic distributions (e.g., age, gender, race, education). Additional adjustments may be made for political affiliation or past voting behavior.
+
+## Questionnaire Design
+
+- **Strengths**:
+  - **Clarity**: Questions are straightforward and easy to understand, reducing measurement error.
+  - **Consistency**: Surveys follow a standardized format, ensuring consistency over time, important for tracking changes in opinion.
+
+- **Weaknesses**:
+  - **Limited Depth**: Online surveys may feature shorter questionnaires to avoid fatigue, limiting topic depth.
+  - **Response Options**: The design of response options (e.g., including "Don't Know") can influence results, potentially leading to different conclusions.
+
+## Evaluation of YouGov's Methodology
+
+YouGov's methodology provides several strengths, such as cost, speed, and accessibility, making it suitable for political polling and market research. Online panels enable rapid data collection and targeted sampling. However, the reliance on non-probability sampling introduces biases. While weighting can mitigate some issues, it may not fully compensate for differences between panelists and the general population.
+
+- **Strengths**:
+  - **Efficient**: Cost-effective and quick data collection.
+  - **Adaptable**: Can rapidly capture opinions on evolving issues.
+  - **Targeted**: Capable of reaching niche demographics or regions.
+
+- **Weaknesses**:
+  - **Selection Bias**: Potential biases due to non-probability sampling.
+  - **Non-Response Bias**: Some groups may be less likely to participate.
+  - **Questionnaire Limitations**: Less depth compared to other survey methods.
+
+Overall, YouGov’s approach satisfies many standards for modern survey research. Although it has limitations, the insights gained are valuable when these are taken into account.
 
 # Model details {#sec-model-details}
 
