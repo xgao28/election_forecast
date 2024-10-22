@@ -102,7 +102,7 @@ fit_model <- function(candidate) {
   candidate_data <- data %>%
     filter(candidate_name == candidate)
   
-  model <- lm(pct ~ pollscore + transparency_score + days_towards_election, data = candidate_data)
+  model <- lm(pct ~ pollscore + transparency_score + sample_size + state + days_towards_election, data = candidate_data)
   
   summary(model)
 }
