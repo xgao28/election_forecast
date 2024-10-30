@@ -140,26 +140,88 @@ The model employed is a multiple linear regression, where the response variable 
 #| echo: false
 #| message: false
 #| warning: false
+data_nevada <- data %>% filter(state == "Nevada") 
+data_arizona <- data %>% filter(state == "Arizona") 
+data_wisconsin <- data %>% filter(state == "Wisconsin") 
+data_michigan <- data %>% filter(state == "Michigan") 
+data_penn <- data %>% filter(state == "Pennsylvania") 
+data_north_carolina <- data %>% filter(state == "North Carolina") 
+data_georgia <- data %>% filter(state == "Georgia") 
+
 candidate_names <- c("Kamala Harris", "Donald Trump")
 
-# Define a function to fit the model and return the summary for each candidate
-fit_model <- function(candidate) {
-  candidate_data <- data %>%
-    filter(candidate_name == candidate)
+fit_model <- function(data, candidate) {
+  candidate_data <- data %>% filter(candidate_name == candidate)
   
-  model <- lm(pct ~ pollscore + transparency_score + sample_size + state + days_towards_election, data = candidate_data)
-  
-  summary(model)
+  if (nrow(candidate_data) > 0) {  # Check if there are rows for the candidate
+    model <- lm(pct ~ days_towards_election, data = candidate_data)
+    tidy_model <- tidy(model)  # Get a tidy summary of the model
+    tidy_model$state <- unique(candidate_data$state)  # Add state to the output
+    tidy_model$candidate <- candidate  # Add candidate to the output
+    return(tidy_model)
+  } else {
+    return(NULL)  # Return NULL if no data for the candidate
+  }
 }
 
-# Apply the function to each distinct candidate name and store the summaries in a list
-model_summaries <- candidate_names %>%
-  set_names() %>%
-  map(fit_model)
+state_data_list <- list(
+  Nevada = data_nevada,
+  Arizona = data_arizona,
+  Wisconsin = data_wisconsin,
+  Michigan = data_michigan,
+  Pennsylvania = data_penn,
+  North_Carolina = data_north_carolina,
+  Georgia = data_georgia
+)
 
-# Print model summaries for each candidate
-model_summaries
+
+# Initialize an empty list to store results
+results <- list()
+
+# Loop through each candidate
+for (candidate in candidate_names) {
+  state_results <- list()  # Initialize an empty list for state results
+  
+  # Loop through each state dataset
+  for (state_name in names(state_data_list)) {
+    state_data <- state_data_list[[state_name]]  # Get the state data
+    model_result <- fit_model(state_data, candidate)  # Fit the model
+    state_results[[state_name]] <- model_result  # Store the result
+  }
+  
+  # Combine results for the current candidate into a single data frame
+  results[[candidate]] <- bind_rows(state_results)
+}
+
+# Combine results for all candidates into a single data frame
+final_results <- bind_rows(results, .id = "candidate")
+
+# View the final results
+print(final_results)
+
 ```
+
+```{r}
+intercept_results <- final_results %>%
+  filter(term == "(Intercept)")
+
+# Spread the results into wide format
+intercept_wide <- intercept_results %>%
+  select(state, candidate, estimate) %>%
+  pivot_wider(names_from = candidate, values_from = estimate, values_fill = NA)
+
+# Calculate the difference in estimates between candidates
+intercept_wide <- intercept_wide %>%
+  mutate(difference = `Kamala Harris` - `Donald Trump`)
+
+# View the results with differences
+print(intercept_wide)
+```
+
+```{r}
+
+```
+
 
 The linear regression model is specified for each candidate separately, with the following structure:
 

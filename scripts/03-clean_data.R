@@ -58,6 +58,7 @@ selected_columns <- c(
   "party", 
   "answer", 
   "candidate_name", 
+  "days_towards_election",
   "pct"
 )
 data <- data %>% 
@@ -68,3 +69,4 @@ data <- data %>%
 
 #### Save data ####
 write_csv(data, "data/02-analysis_data/cleaned_president_polls.csv")
+
