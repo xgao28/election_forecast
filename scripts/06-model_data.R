@@ -13,24 +13,22 @@ library(tidyverse)
 library(rstanarm)
 
 #### Read data ####
-analysis_data <- read_csv("data/analysis_data/analysis_data.csv")
+#analysis_data <- read_csv("data/analysis_data/analysis_data.csv")
 
-### Model data ####
-first_model <-
-  stan_glm(
-    formula = flying_time ~ length + width,
-    data = analysis_data,
-    family = gaussian(),
-    prior = normal(location = 0, scale = 2.5, autoscale = TRUE),
-    prior_intercept = normal(location = 0, scale = 2.5, autoscale = TRUE),
-    prior_aux = exponential(rate = 1, autoscale = TRUE),
-    seed = 853
-  )
+data <- read_csv("data/01-raw_data/president_polls.csv")
+
+# Nevada: 6
+# Arizona: 11
+# Wisconsin: 10
+# Michegan: 15
+# Penn: 19
+# North Carolina: 16
+# Gerogia: 16
 
 
 #### Save model ####
 saveRDS(
-  first_model,
+  model,
   file = "models/first_model.rds"
 )
 

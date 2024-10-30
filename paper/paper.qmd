@@ -15,6 +15,8 @@ number-sections: true
 bibliography: references.bib
 ---
 
+
+
 ```{r}
 #| include: false
 #| warning: false
@@ -54,6 +56,7 @@ skim(data)
 #| warning: false
 #| message: false
 #| echo: false
+#| label: fig-multicol
 numeric_data <- data %>% 
   select(where(is.numeric)) %>% 
   select(numeric_grade, pollscore, transparency_score) %>% 
@@ -70,6 +73,29 @@ ggpairs(numeric_data) +
 ```
 
 
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| label: fig-pct
+data %>% filter(candidate_name %in% c("Kamala Harris", "Donald Trump")) %>% 
+  mutate(end_date = as.Date(end_date, format = "%m/%d/%y")) %>% 
+  filter(end_date > as.Date("2024-01-01")) %>% 
+  ggplot(aes(x = end_date, y = pct, color = candidate_name, group = candidate_name)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth() +
+  labs(
+    title = "Polling Percentage over Time by Candidate",
+    x = "End Date",
+    y = "Polling Percentage (%)",
+    color = "Candidate"
+  ) +
+  scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
+  theme_minimal() +
+  scale_x_date(date_breaks = "3 months", date_labels = "%b %Y") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
 
 
 
