@@ -252,6 +252,188 @@ YouGov's methodology provides several strengths, such as cost, speed, and access
 
 Overall, YouGov’s approach satisfies many standards for modern survey research. Although it has limitations, the insights gained are valuable when these are taken into account.
 
+# **Appendix: Methodology and Survey Design for 2024 U.S. Presidential Election Forecast**
+
+---
+
+## **Appendix A: Methodology**
+
+This section details the **idealized methodology** used to conduct a national survey to forecast the 2024 U.S. presidential election. The methodology includes **sampling strategies, recruitment methods, data validation techniques, and poll aggregation** procedures.
+
+---
+
+### **1. Sampling Approach**
+
+- **Total Sample Size**: 10,000 respondents
+- **Distribution by State**:
+  - **Minimum 100 respondents per state** (including Washington, D.C.) to ensure balanced regional representation.
+  - **Oversampling in battleground states** (e.g., Georgia, Pennsylvania, Arizona) with **1,000 respondents per state** for more precise insights.
+
+- **Stratified Random Sampling**:
+  - Stratify by **age, gender, race/ethnicity, education, income, and region**.
+  - Ensure proportional representation based on **U.S. Census data** to avoid bias.
+
+- **Weighting Strategy**:
+  - Apply **post-stratification weighting** to adjust for any sampling imbalance, aligning with national demographics.
+
+---
+
+### **2. Recruitment Plan**
+
+- **Recruitment Channels**:
+  - Use **YouGov, Qualtrics**, and **MTurk** to access pre-screened online panels.
+  - Complement with **social media ads** on Facebook, Instagram, and LinkedIn to reach underrepresented groups.
+
+- **Incentives**:
+  - Offer **$10 gift cards** or entry into sweepstakes to increase participation and engagement.
+
+---
+
+### **3. Survey Implementation and Design**
+
+- **Survey Platform**: Google Forms  
+  - **Link**: *(Insert Google Forms survey link here)*  
+  - Accessible to respondents via **email, social media, and direct recruitment channels**.
+
+- **Survey Structure**:
+  1. **Demographics Section**: Age, gender, race/ethnicity, income, education, and state of residence.
+  2. **Voting Preferences Section**: Candidate choice, likelihood of voting, and party affiliation.
+  3. **Key Issues Section**: Identify priority issues (e.g., economy, healthcare, immigration).
+  4. **Thank You Message**:  
+     - *“Thank you for completing the survey! Your input is greatly appreciated and will help provide insights into the upcoming 2024 election.”*
+
+---
+
+### **4. Data Validation**
+
+- **Techniques for Data Quality**:
+  1. **Screening Questions**: Confirm eligibility (e.g., 18+ years old, registered voter status).
+  2. **Attention Checks**: Include a question like *“Please select ‘Agree’ for this item”* to verify respondents are attentive.
+  3. **IP Geolocation**: Validate state residency based on reported location.
+  4. **Duplicate Detection**: Identify and remove duplicate responses.
+
+---
+
+### **5. Poll Aggregation and Reporting**
+
+- **Poll Aggregation**:  
+  - Combine results with data from **YouGov, Marquette, and other reliable sources** for a robust forecast.
+  - Use **weighted averages** to account for differences in sample size and demographics.
+
+- **Margin of Error**:  
+  - **National Margin of Error**: ±1% at the 95% confidence level.  
+  - **State-Level Margins**: ±5-10% depending on the sample size for each state.
+
+---
+
+### **6. Budget Allocation**
+
+| **Expense**                     | **Estimated Cost**  |
+|----------------------------------|---------------------|
+| Panel Provider Fees              | $60,000             |
+| Participant Incentives           | $20,000             |
+| Social Media Advertising         | $10,000             |
+| Google Forms (Platform)          | Free                |
+| Data Validation & Analysis       | $8,000              |
+| Miscellaneous Expenses           | $2,000              |
+| **Total**                        | **$100,000**        |
+
+---
+
+## **Appendix B: Survey Questions**
+
+Below is the full content of the survey to be implemented using Google Forms:
+
+### **Survey Questions**
+
+#### **Section 1: Demographics**
+1. **What is your age?**  
+   - 18-24  
+   - 25-34  
+   - 35-44  
+   - 45-54  
+   - 55-64  
+   - 65+  
+
+2. **What is your gender?**  
+   - Male  
+   - Female  
+   - Non-binary/Other  
+
+3. **What is your race/ethnicity?** (Select all that apply)  
+   - White  
+   - Black or African American  
+   - Hispanic or Latino  
+   - Asian  
+   - Indigenous (Native American, Alaska Native, or First Nations)  
+   - Pacific Islander or Native Hawaiian  
+   - Other (please specify)  
+
+4. **What is your household income?**  
+   - Less than $25,000  
+   - $25,000 - $49,999  
+   - $50,000 - $99,999  
+   - $100,000 or more  
+
+5. **Which state do you currently reside in?**  
+   - (List all 50 states + Washington, D.C.)
+
+---
+
+#### **Section 2: Voting Preferences**
+6. **Are you a registered voter?**  
+   - Yes  
+   - No  
+   - Not sure  
+
+7. **How likely are you to vote in the 2024 presidential election?**  
+   - Definitely will vote  
+   - Probably will vote  
+   - Probably will not vote  
+   - Definitely will not vote  
+
+8. **If the 2024 election were held today, who would you vote for?**  
+   - Kamala Harris (Democrat)  
+   - Donald Trump (Republican)  
+   - Other (Please specify)  
+   - Undecided  
+
+9. **How favorable are your opinions of the following candidates?**  
+   (Rate on a scale of 1 to 5)  
+   - Kamala Harris  
+   - Donald Trump  
+   - Any third-party candidates  
+
+---
+
+#### **Section 3: Key Issues**
+10. **What is the most important issue for you in this election?**  
+   - Economy  
+   - Healthcare  
+   - Immigration  
+   - Climate change  
+   - Social Security and Medicare  
+   - Foreign policy  
+
+11. **Which candidate do you think would handle the economy better?**  
+   - Kamala Harris  
+   - Donald Trump  
+   - Not sure  
+
+---
+
+#### **Thank You Message**
+*“Thank you for completing the survey! Your input is greatly appreciated and will help provide insights into the upcoming 2024 election.”*
+
+---
+
+## **Appendix C: Google Forms Link**
+
+Once the survey is created, insert the **Google Forms link** here for participants to access.
+
+
+https://forms.gle/2MGYeZavDsCNuWZ1A
+
 # Model details {#sec-model-details}
 
 ## Posterior predictive check

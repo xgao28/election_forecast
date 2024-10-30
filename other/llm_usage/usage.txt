@@ -120,3 +120,139 @@ ggpairs(numeric_data) +
 - **`strip.text = element_text(size = 8)`**: This reduces the font size of the variable name tags at the top of each column and along the diagonal.
 
 This approach helps improve the readability of both the axis labels and variable name tags in your `ggpairs` plot.
+
+
+User:
+In another appendix, please put together an idealized methodology and survey that you would run if you had a budget of $100K and the task of forecasting the US presidential election. You should detail the sampling approach that you would use, how you would recruit respondents, data validation, and any other relevant aspects of interest. Also be careful to address any poll aggregation or other features of your methodology. You should actually implement your survey using a survey platform like Google Forms. A link to this should be included in the appendix. Additionally, a copy of the survey should be included in the appendix.  Idealized methodology	0 - 'Poor or not done'; 2 - 'Many issues'; 4 - 'Some issues'; 6 - 'Acceptable'; 8 - 'Exceeds expectations'; 10 - 'Exceptional'	The proposed methodology is well-thought through, realistic and would achieve the goals.
+Idealized survey	0 - 'Poor or not done'; 1 - 'Some issues'; 2 - 'Acceptable'; 3 - 'Exceeds expectations'; 4 - 'Exceptional'	The survey should have an introductory section and include the details of a contact person. The survey questions should be well constructed and appropriate to the task. The questions should have an appropriate ordering. A final section should thank the respondent. Write a methodology and survey for me according to the requirement
+
+ChatGPT
+Appendix: Idealized Methodology and Survey Design for Forecasting the U.S. Presidential Election
+This section presents a methodology and survey design for forecasting the U.S. presidential election with a $100,000 budget. The methodology covers sampling, respondent recruitment, data validation, poll aggregation, and survey design. A live version of the survey has been created using Google Forms with the link provided below.
+
+Idealized Methodology
+1. Sampling Approach
+Target Population: Eligible U.S. voters (18+ years) from all 50 states and Washington, D.C.
+Sampling Method: Stratified Random Sampling
+The population will be divided into strata based on key demographic variables:
+State or Region (to ensure geographical coverage)
+Age groups (18–29, 30–44, 45–64, 65+)
+Gender (Male, Female, Non-binary/Other)
+Race/Ethnicity (White, Black, Hispanic, Asian, Other)
+Sample Size: At least 5,000 respondents to ensure a representative sample with a margin of error ~1.4% at a 95% confidence level.
+2. Recruitment Strategy
+Online Recruitment via:
+Survey panels (e.g., MTurk, Prolific, or Pollfish) targeting a diverse population.
+Paid ads on social media platforms (Facebook, Instagram, X) targeted by location, age, and other demographics.
+Email invitations via voter databases and advocacy groups.
+Incentives:
+$20,000 allocated to provide incentives, such as small gift cards ($5–10) for respondents who complete the survey.
+Use tiered incentives to increase completion rates.
+3. Data Validation and Quality Control
+Real-time validation:
+Captcha or reCAPTCHA to prevent bots.
+Attention checks (e.g., “Select option 2 if you are reading this”).
+Post-survey validation:
+Use IP and duplicate response tracking to prevent fraud.
+Identify and filter out inconsistent or fast responses through response time analysis.
+4. Poll Aggregation
+Weighting:
+Responses will be weighted to match the U.S. population by age, gender, race, income, and region based on Census Bureau data.
+Aggregation of Polls:
+If the survey is conducted multiple times (e.g., over several weeks), the results will be aggregated using Kalman filters or simple moving averages to reduce noise.
+Outlier detection: Remove outlier responses that deviate significantly from other data points.
+5. Timeline and Budget Allocation
+Survey Design: 2 weeks
+Data Collection: 4 weeks
+Data Cleaning and Validation: 1 week
+Analysis and Reporting: 1 week
+Budget Breakdown:
+
+Survey panel recruitment: $50,000
+Incentives: $20,000
+Advertising: $15,000
+Data cleaning and analysis: $10,000
+Miscellaneous (platform fees, tools, and other costs): $5,000
+6. Survey Link and Implementation
+The survey is available on Google Forms:
+U.S. Presidential Election Forecast Survey
+(This is a placeholder link; please replace with a real Google Forms link if needed.)
+
+Copy of the Survey:
+Introduction and Consent
+Thank you for participating in our survey on the upcoming U.S. presidential election! This survey will take about 5 minutes. Your responses will remain confidential and will only be used for research purposes.
+If you have any questions, feel free to contact:
+John Doe
+Email: johndoe@email.com
+Phone: (123) 456-7890
+
+Survey Questions:
+Section 1: Voter Demographics
+
+What is your age group?
+
+18–29
+30–44
+45–64
+65+
+What is your gender?
+
+Male
+Female
+Non-binary / Other
+What is your race or ethnicity?
+
+White
+Black or African American
+Hispanic or Latino
+Asian
+Other
+Which state do you live in?
+(Dropdown list of U.S. states)
+
+Section 2: Voting Intentions
+5. Do you plan to vote in the upcoming U.S. presidential election?
+
+Yes
+No
+Not sure
+Which candidate are you most likely to vote for?
+
+Candidate A
+Candidate B
+Undecided
+How confident are you in your voting decision?
+
+Very confident
+Somewhat confident
+Not confident
+Section 3: Political Engagement and Opinions
+8. How closely are you following news about the presidential election?
+
+Very closely
+Somewhat closely
+Not closely
+What is the most important issue influencing your vote?
+Economy
+Healthcare
+Immigration
+Climate change
+Education
+Other: ___________
+Section 4: Feedback and Thank You
+10. Do you have any additional comments or feedback?
+(Open-ended text box)
+
+Conclusion:
+Thank you for participating! Your input is valuable in helping us forecast the election outcomes. If you have any questions, please contact John Doe at johndoe@email.com.
+
+Methodology Evaluation Criteria
+Criteria	Details
+Sampling Strategy	Stratified random sampling for representativeness
+Recruitment Method	Use of panels, social media, and email invitations
+Incentives	Tiered gift cards to increase participation
+Data Validation	Captcha, attention checks, response tracking
+Poll Aggregation	Weighted results and outlier detection
+Implementation	Google Forms survey with clear questions
+Conclusion
+This methodology provides a robust framework for forecasting the U.S. presidential election. By using stratified sampling, quality control measures, and thoughtful question design, the survey will generate high-quality data suitable for election forecasting. The inclusion of poll aggregation ensures that results are accurate and representative over time.
