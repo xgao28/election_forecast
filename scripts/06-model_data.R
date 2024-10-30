@@ -15,7 +15,7 @@ library(rstanarm)
 #### Read data ####
 #analysis_data <- read_csv("data/analysis_data/analysis_data.csv")
 
-data <- read_csv("data/01-raw_data/president_polls.csv")
+data <- read_csv("data/02-analysis_data/cleaned_president_polls.csv")
 
 # Nevada: 6
 # Arizona: 11
@@ -24,6 +24,16 @@ data <- read_csv("data/01-raw_data/president_polls.csv")
 # Penn: 19
 # North Carolina: 16
 # Gerogia: 16
+data_nevada <- data %>% filter(state == "Nevada") 
+data_arizona <- data %>% filter(state == "Arizona") 
+data_wisconsin <- data %>% filter(state == "Wisconsin") 
+data_michigan <- data %>% filter(state == "Michigan") 
+data_penn <- data %>% filter(state == "Pennsylvania") 
+data_north_carolina <- data %>% filter(state == "North Carolina") 
+data_georgia <- data %>% filter(state == "Georgia") 
+
+candidate_names <- c("Kamala Harris", "Donald Trump")
+
 
 
 #### Save model ####

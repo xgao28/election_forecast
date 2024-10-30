@@ -27,26 +27,6 @@ data_a <- data_a %>%
 
 data$days_towards_election <- data_a$days_towards_election
 
-# TODO: mutate expected_vote
-filtered_data <- data %>%
-  group_by(question_id, poll_id) %>%
-  filter(any(candidate_name == "Kamala Harris") & any(candidate_name == "Donald Trump")) %>%
-  ungroup()
-
-average_pct <- filtered_data %>%
-  filter(candidate_name %in% c("Kamala Harris", "Donald Trump")) %>%
-  group_by(poll_id, candidate_name) %>%
-  summarise(avg_pct = mean(pct), .groups = 'drop')
-
-expected_votes <- average_pct %>%
-  left_join(filtered_data %>% 
-              select(poll_id, sample_size, days_towards_election) %>% 
-              distinct(), 
-            by = "poll_id") %>%
-  mutate(expected_vote = avg_pct * 0.01 * sample_size)
-
-
-
 # Select columns
 selected_columns <- c(
   "poll_id",
