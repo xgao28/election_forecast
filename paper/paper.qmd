@@ -1,10 +1,10 @@
 ---
-title: "Forecasting the 2024 US Presidential Election: A Poll-Based Approach"
-subtitle: "My subtitle if needed"
+title: "Forecasting the 2024 U.S. Presidential Election: A Poll-Based Approach"
+subtitle: "Kamala Harris Poised for Victory"
 author: 
   - Xinxiang Gao
   - Ariel Xing
-  - John Zhang
+  - John Zhang^[The authors are listed in alphabetical order by last name.]
 thanks: "Code and data are available at: [https://github.com/xgao28/election_forecast](https://github.com/xgao28/election_forecast)."
 date: today
 date-format: long
