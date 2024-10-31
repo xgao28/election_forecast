@@ -148,7 +148,6 @@ fit_model <- function(data, candidate) {
   if (nrow(candidate_data) > 0) {  # Check if there are rows for the candidate
     model <- lm(pct ~ days_towards_election, data = candidate_data)
     tidy_model <- tidy(model)  # Get a tidy summary of the model
-    tidy_model$state <- unique(candidate_data$state)  # Add state to the output
     tidy_model$candidate <- candidate  # Add candidate to the output
     return(tidy_model)
   } else {
@@ -176,7 +175,7 @@ for (candidate in candidate_names) {
 final_results <- bind_rows(results, .id = "candidate")
 
 # View the final results
-print(final_results)
+kable(final_results)
 
 ```
 
@@ -197,7 +196,19 @@ data_north_carolina <- data %>% filter(state == "North Carolina")
 data_georgia <- data %>% filter(state == "Georgia") 
 
 
-
+fit_model <- function(data, candidate) {
+  candidate_data <- data %>% filter(candidate_name == candidate)
+  
+  if (nrow(candidate_data) > 0) {  # Check if there are rows for the candidate
+    model <- lm(pct ~ days_towards_election, data = candidate_data)
+    tidy_model <- tidy(model)  # Get a tidy summary of the model
+    tidy_model$state <- unique(candidate_data$state)  # Add state to the output
+    tidy_model$candidate <- candidate  # Add candidate to the output
+    return(tidy_model)
+  } else {
+    return(NULL)  # Return NULL if no data for the candidate
+  }
+}
 
 
 state_data_list <- list(
@@ -233,7 +244,7 @@ for (candidate in candidate_names) {
 final_results <- bind_rows(results, .id = "candidate")
 
 # View the final results
-print(final_results)
+kable(final_results)
 
 ```
 
@@ -254,7 +265,7 @@ intercept_wide <- intercept_wide %>%
   mutate(difference = `Kamala Harris` - `Donald Trump`)
 
 # View the results with differences
-print(intercept_wide)
+kable(intercept_wide)
 ```
 
 ```{r}
