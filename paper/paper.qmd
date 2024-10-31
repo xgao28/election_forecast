@@ -25,6 +25,7 @@ library(skimr)
 library(knitr)
 library(GGally)
 library(dplyr)
+library(broom)
 ```
 
 
@@ -136,20 +137,11 @@ The goal of our modeling strategy is twofold. Firstly, we aim to estimate the ca
 The model employed is a multiple linear regression, where the response variable is the percentage of support ("pct") for each candidate in the polls. The predictors include "pollscore" (indicating the quality of the poll), "transparency_score" (reflecting methodological disclosure), "sample_size" (number of respondents), "state" (geographical indicator), and "days_towards_election" (timing of the poll).
 
 ## Model set-up
-```{r}
+
+```{r baseline model}
 #| echo: false
 #| message: false
 #| warning: false
-data_nevada <- data %>% filter(state == "Nevada") 
-data_arizona <- data %>% filter(state == "Arizona") 
-data_wisconsin <- data %>% filter(state == "Wisconsin") 
-data_michigan <- data %>% filter(state == "Michigan") 
-data_penn <- data %>% filter(state == "Pennsylvania") 
-data_north_carolina <- data %>% filter(state == "North Carolina") 
-data_georgia <- data %>% filter(state == "Georgia") 
-
-candidate_names <- c("Kamala Harris", "Donald Trump")
-
 fit_model <- function(data, candidate) {
   candidate_data <- data %>% filter(candidate_name == candidate)
   
@@ -163,6 +155,50 @@ fit_model <- function(data, candidate) {
     return(NULL)  # Return NULL if no data for the candidate
   }
 }
+
+# Candidate names
+candidate_names <- c("Kamala Harris", "Donald Trump")
+
+# Initialize an empty list to store results
+results <- list()
+
+# Loop over candidates and store each model's results
+for (candidate in candidate_names) {
+  model_result <- fit_model(data, candidate)  # Fit the model
+  
+  # Check if the model_result is not NULL and add to the results list
+  if (!is.null(model_result)) {
+    results[[candidate]] <- model_result
+  }
+}
+
+# Combine results for all candidates into a single data frame
+final_results <- bind_rows(results, .id = "candidate")
+
+# View the final results
+print(final_results)
+
+```
+
+
+
+
+
+```{r our model}
+#| echo: false
+#| message: false
+#| warning: false
+data_nevada <- data %>% filter(state == "Nevada") 
+data_arizona <- data %>% filter(state == "Arizona") 
+data_wisconsin <- data %>% filter(state == "Wisconsin") 
+data_michigan <- data %>% filter(state == "Michigan") 
+data_penn <- data %>% filter(state == "Pennsylvania") 
+data_north_carolina <- data %>% filter(state == "North Carolina") 
+data_georgia <- data %>% filter(state == "Georgia") 
+
+
+
+
 
 state_data_list <- list(
   Nevada = data_nevada,
@@ -202,6 +238,9 @@ print(final_results)
 ```
 
 ```{r}
+#| echo: false
+#| message: false
+#| warning: false
 intercept_results <- final_results %>%
   filter(term == "(Intercept)")
 
@@ -219,26 +258,117 @@ print(intercept_wide)
 ```
 
 ```{r}
+#| echo: false
+#| message: false
+#| warning: false
+solid_state_votes <- data.frame(
+  Candidate = c("Harris", "Trump"),
+  Solid_State_Votes = c(226, 219)
+)
+intercept_wide$electoral_votes <- c(6, 11, 10, 15, 19, 16, 16)
 
+swing_state_results <- intercept_wide %>%
+  mutate(Winner = ifelse(difference > 0, "Harris", "Trump")) %>%
+  group_by(Winner) %>%
+  summarize(Predicted_Swing_State_Votes = sum(electoral_votes))
+
+total_votes <- solid_state_votes %>%
+  left_join(swing_state_results, by = c("Candidate" = "Winner")) %>%
+  mutate(Predicted_Swing_State_Votes = ifelse(is.na(Predicted_Swing_State_Votes), 0, Predicted_Swing_State_Votes),
+         Total_Predicted_Votes = Solid_State_Votes + Predicted_Swing_State_Votes)
+
+kable(total_votes, caption = "Predicted Electoral Votes for Each Candidate")
 ```
 
 
-The linear regression model is specified for each candidate separately, with the following structure:
+### Model Formulations
 
-\begin{align}
-\text{pct}_i & = \beta_0 + \beta_1 \text{pollscore}_i + \beta_2 \text{transparency\_score}_i + \beta_3 \text{sample\_size}_i + \beta_4 \text{state}_i + \beta_5 \text{days\_towards\_election}_i + \epsilon_i \\
-\epsilon_i & \sim \text{Normal}(0, \sigma^2)
-\end{align}
+#### 1. Baseline Model (Winner-Take-All National Model)
+The baseline model aggregates national polling data to predict a winner, with all electoral votes awarded to the candidate with the higher national polling percentage.
 
-Where:
-\begin{align}
-\beta_0 & \text{ is the intercept term} \\
-\beta_1, \beta_2, \beta_3, \beta_4, \beta_5 & \text{ are the coefficients for each predictor} \\
-\sigma^2 & \text{ is the variance of the error term}
-\end{align}
+1. **National Polling Projections**  
+   Let:
+   - $P_H(t)$: Harris’s national polling percentage at $t$ days towards the election.
+   - $P_T(t)$: Trump’s national polling percentage at $t$ days towards the election.
 
+   We model each candidate’s polling as:
+   $$
+   P_H(t) = \alpha_H + \beta_H t
+   $$
+   $$
+   P_T(t) = \alpha_T + \beta_T t
+   $$
 
-In the implementation, a function is defined to fit this model for each candidate (Kamala Harris and Donald Trump) individually. The model fits are then summarized to interpret the coefficients for each predictor.
+   where $\alpha_H$ and $\alpha_T$ are the intercepts (predicted percentages on election day, $t = 0$), and $\beta_H$ and $\beta_T$ are the slopes.
+
+2. **Election Day Prediction**  
+   On election day:
+   $$
+   P_H(0) = \alpha_H, \quad P_T(0) = \alpha_T
+   $$
+
+3. **Winner-Take-All Outcome**  
+   The candidate with the higher predicted national percentage wins all electoral votes:
+   $$
+   W = 
+   \begin{cases} 
+   \text{Harris wins (all electoral votes)} & \text{if } \alpha_H > \alpha_T \\
+   \text{Trump wins (all electoral votes)} & \text{otherwise}
+   \end{cases}
+   $$
+
+#### 2. Primary Model (Swing State-Based Model)
+This model forecasts electoral outcomes by projecting state-level polling results for each candidate, combining swing state outcomes with votes from solid states.
+
+1. **Swing State Polling Projections**  
+   For each swing state $s \in S$, let:
+   - $P_{H_s}(t)$: Harris’s polling percentage in state $s$ at $t$ days before the election.
+   - $P_{T_s}(t)$: Trump’s polling percentage in state $s$ at $t$ days before the election.
+
+   We model each swing state polling as:
+   $$
+   P_{H_s}(t) = \alpha_{H_s} + \beta_{H_s} t
+   $$
+   $$
+   P_{T_s}(t) = \alpha_{T_s} + \beta_{T_s} t
+   $$
+
+   where $\alpha_{H_s}$ and $\alpha_{T_s}$ are intercepts (predicted percentages at $t = 0$) and $\beta_{H_s}$, $\beta_{T_s}$ are slopes.
+
+2. **Predicting Swing State Winners**  
+   On election day ($t = 0$), each candidate’s predicted support in state $s$is:
+   $$
+   P_{H_s}(0) = \alpha_{H_s}, \quad P_{T_s}(0) = \alpha_{T_s}
+   $$
+
+   Define $W_s$ as an indicator for the swing state winner:
+   $$
+   W_s = 
+   \begin{cases} 
+   1 & \text{if } \alpha_{H_s} > \alpha_{T_s} \\
+   0 & \text{otherwise}
+   \end{cases}
+   $$
+
+3. **Electoral Vote Aggregation**  
+   Let $EV_H$ and $EV_T$ represent total electoral votes for Harris and Trump:
+   $$
+   EV_H = \sum_{s \in S} W_s \cdot EV_s + \sum_{s \in S_H} EV_s
+   $$
+   $$
+   EV_T = \sum_{s \in S} (1 - W_s) \cdot EV_s + \sum_{s \in S_T} EV_s
+   $$
+
+4. **Final Election Outcome**  
+   The candidate surpassing 270 electoral votes wins:
+   $$
+   W = 
+   \begin{cases} 
+   \text{Harris wins} & \text{if } EV_H \geq 270 \\
+   \text{Trump wins} & \text{if } EV_T \geq 270 
+   \end{cases}
+   $$
+
 
 
 
