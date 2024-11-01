@@ -147,10 +147,10 @@ for (candidate in candidate_names) {
 }
 
 # Combine results for all candidates into a single data frame
-final_results <- bind_rows(results, .id = "candidate")
+final_results_baseline <- bind_rows(results, .id = "candidate")
 
 # View the final results
-kable(final_results)
+kable(final_results_baseline)
 
 ```
 
@@ -324,6 +324,22 @@ Additionally, the linear relationship assumed in these models is justified by th
 #| message: false
 #| warning: false
 
+
+
+intercept_results_baseline <- final_results_baseline %>%
+  filter(term == "(Intercept)")
+
+# Spread the results into wide format
+intercept_wide_baseline <- intercept_results %>%
+  select(candidate, estimate) %>%
+  pivot_wider(names_from = candidate, values_from = estimate, values_fill = NA)
+
+# Calculate the difference in estimates between candidates
+intercept_wide_baseline <- intercept_wide %>%
+  mutate(difference = `Kamala Harris` - `Donald Trump`)
+
+# View the results with differences
+kable(intercept_wide)
 ```
 
 ```{r}
