@@ -330,16 +330,16 @@ intercept_results_baseline <- final_results_baseline %>%
   filter(term == "(Intercept)")
 
 # Spread the results into wide format
-intercept_wide_baseline <- intercept_results %>%
+intercept_wide_baseline <- intercept_results_baseline %>%
   select(candidate, estimate) %>%
   pivot_wider(names_from = candidate, values_from = estimate, values_fill = NA)
 
 # Calculate the difference in estimates between candidates
-intercept_wide_baseline <- intercept_wide %>%
+intercept_wide_baseline <- intercept_wide_baseline %>%
   mutate(difference = `Kamala Harris` - `Donald Trump`)
 
 # View the results with differences
-kable(intercept_wide)
+kable(intercept_wide_baseline)
 ```
 
 ```{r}
