@@ -79,29 +79,6 @@ The "state" variable accounts for regional differences in voting preferences. Th
 ### Days Towards Election
 This variable measures the number of days remaining until the election at the time the poll was conducted. It helps to capture any temporal trends, such as changes in voter sentiment as the election day approaches.
 
-### Multicollinearity Considerations
-```{r pairplot}
-#| warning: false
-#| message: false
-#| echo: false
-numeric_data <- data %>% 
-  select(where(is.numeric)) %>% 
-  select(numeric_grade, pollscore, transparency_score) %>% 
-  filter(complete.cases(.))
-
-
-# Create a pair plot
-ggpairs(numeric_data) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 8, margin = margin(t = 10)),
-    axis.text.y = element_text(size = 8, margin = margin(r = 10)),
-    strip.text = element_text(size = 6)  # Adjusts the size of variable name tags
-  )
-```
-While selecting the predictors for the model, multicollinearity was a key concern. Multicollinearity occurs when two or more predictors are highly correlated, which can inflate the variance of the coefficient estimates and make the model less reliable. In our pair plot analysis, we observed a high correlation between "numeric_grade" and "pollscore," suggesting that they measure similar aspects of polling quality.
-
-To mitigate the effects of multicollinearity, "numeric_grade" was excluded from the model. We opted to retain "pollscore" and "transparency_score" as the primary indicators of poll quality because they provide complementary insights—"pollscore" reflects the overall quality and reliability, while "transparency_score" captures the openness in reporting methods. This approach ensures that the model avoids redundancy and improves the stability of the coefficient estimates.
-
 ## Data Cleaning
 In the data cleaning process, we adjusted the dataset to calculate the expected votes for Kamala Harris and Donald Trump by scaling their average percentages according to the sample size. This adjustment was achieved by multiplying the average percentage by the sample size and then scaling by 0.01. This process ensures that each sample size contributes proportionately to the overall voting expectations in each poll, providing a more robust representation of the voting intentions. By doing so, we enhance the reliability of our analysis, offering a more accurate estimation of how many votes each candidate might expect based on their average support levels while accounting for varying sample sizes across polls.
 

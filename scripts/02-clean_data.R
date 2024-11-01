@@ -13,7 +13,7 @@ data <- read_csv("data/01-raw_data/president_polls.csv")
 
 # Select rows
 data <- data %>%
-  filter(numeric_grade >= 2.0)
+  filter(transparency_score >= 8.0)
 
 # Mutate days_towards_election
 data_a <- data %>% 
@@ -30,39 +30,16 @@ data$days_towards_election <- data_a$days_towards_election
 # Select columns
 selected_columns <- c(
   "poll_id",
-  "question_id",
-  "pollster", 
-  "sponsors", 
-  "numeric_grade", 
-  "pollscore", 
-  "methodology", 
   "transparency_score", 
   "state", 
-  "start_date", 
   "end_date", 
-  "sponsor_candidate", 
-  "sponsor_candidate_party", 
-  "question_id", 
-  "sample_size", 
-  "population", 
-  "population_full",
-  "tracking", 
-  "notes", 
-  "source", 
-  "internal", 
-  "partisan", 
-  "race_id", 
-  "ranked_choice_reallocated", 
-  "ranked_choice_round", 
-  "hypothetical", 
   "party", 
-  "answer", 
   "candidate_name", 
   "days_towards_election",
   "pct"
 )
-data <- data %>% 
-  select(all_of(selected_columns))
+data <- data %>%
+  select(all_of(selected_columns)) 
 
 
 
