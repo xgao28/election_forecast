@@ -31,15 +31,17 @@ library(broom)
 
 # Introduction{#sec-intro}
 
-The U.S. Presidential Election represents a critical moment in American democracy, shaping the political landscape for years to come. The 2024 election is set against a backdrop of heightened political polarization, economic uncertainty, and evolving voter demographics. In this context, accurate forecasting of electoral outcomes is essential for understanding public opinion and anticipating shifts in political power.
+The U.S. Presidential Election is a critical event shaping the country’s political direction, often influenced by a complex interplay of public opinion, socio-economic factors, and electoral mechanisms. In recent election cycles, the predictive accuracy of polling has been a topic of significant discussion, as polls not only gauge public sentiment but also influence campaign strategies, media narratives, and voter perceptions. However, challenges such as non-response bias, methodological inconsistencies, and a misalignment between the popular vote and electoral outcomes highlight the need for a robust forecasting model that captures both national and state-specific trends.
 
-Polling has long been a central tool for gauging voter sentiment, providing snapshots of the electorate's preferences at different points in time. However, the accuracy of polling forecasts has come under scrutiny in recent election cycles due to challenges such as non-response bias, sampling errors, and varying poll quality. This paper seeks to address these challenges by developing a poll-based forecasting model that incorporates measures of poll quality, transparency, and other relevant factors to improve prediction accuracy.
+This paper aims to address these challenges by developing a polling-based forecasting model for the 2024 U.S. Presidential Election, with a focus on the two main candidates, Kamala Harris and Donald Trump. Using a dual-model approach, we employ a **Baseline Model** to provide a broad national outlook and a **Primary Model** to examine state-level dynamics, especially in key swing states. The Baseline Model aggregates national polling data to predict which candidate would win a majority of popular support, while the Primary Model applies a more nuanced, state-level analysis aligned with the electoral college structure. This combination seeks to address the gap in existing models, which often fail to account for the specific impact of swing states on electoral outcomes, despite their pivotal role in determining the presidency.
 
-The primary estimand in this analysis is the percentage of support for each candidate as indicated by polling data. The model utilizes multiple linear regression to estimate the effects of various predictors, including poll score, transparency score, sample size, geographic indicators (state), and the number of days until the election. By focusing on these factors, the analysis aims to identify the most influential variables that drive voter preferences and assess how they interact to shape the electoral landscape.
+Our analysis indicates that while Kamala Harris shows a lead in national polling, as reflected in the Baseline Model, the decisive factors lie within swing states such as Pennsylvania, Michigan, and Wisconsin, where the Primary Model highlights Harris’s slight advantages. The state-level predictions from the Primary Model suggest a possible electoral college win for Harris, projecting her to receive 292 electoral votes, above the 270-vote threshold needed to secure the presidency. This finding underscores the unique nature of U.S. elections, where winning the national popular vote does not necessarily translate to an electoral college victory. Our approach, by leveraging poll data with attention to poll quality, transparency, sample size, and geographic variation, seeks to provide a nuanced and accurate forecast that reflects both general sentiment and the regional intricacies of the election.
 
-Results from the model provide insights into the relationship between polling characteristics and predicted support levels for Kamala Harris and Donald Trump. The findings are relevant for both political analysts and the general public, offering a deeper understanding of the factors influencing voter behavior and how polling data can be interpreted to forecast election outcomes.
+The structure of this paper is as follows: @sec-data provides an overview of the dataset, detailing the polling data sources, variables, and preprocessing steps. @sec-model outlines the modeling approach, presenting the rationale behind the Baseline and Primary Models and discussing their respective contributions to the analysis. @sec-results presents the results, including national and state-level predictions, followed by @sec-disc, which explores the implications of these findings, discusses limitations, and suggests future research directions. An appendix provides additional methodological details and diagnostics. 
 
-The remainder of this paper is structured as follows. @sec-data describes the dataset and variables used in the analysis, including the steps taken to clean and preprocess the data. @sec-model details the modeling approach, justification, and the rationale for the selection of predictors. @sec-results presents the model findings, while @sec-disc explores the implications, limitations, and future directions for research. An appendix provides additional methodological details and diagnostics. 
+## Estimand
+
+The primary estimand in this study is the predicted percentage of support each candidate will receive on election day, both nationally and within critical swing states. This percentage serves as the foundation for forecasting which candidate is likely to win the election, by capturing trends in public sentiment over time and projecting how these trends may manifest in the final vote count.
 
 ```{r}
 #| echo: false
@@ -51,42 +53,44 @@ skim(data)
 ```
 
 
-# Data{#sec-data}
+# Data {#sec-data}
 
-## Overview of Data
-The dataset used in this analysis comprises polling information for the 2024 U.S. Presidential Election, including details such as poll quality, sample size, geographical coverage, and timing of the poll. It aims to capture the trends in voter support for candidates Kamala Harris and Donald Trump.
+## Dataset Overview
 
-## Measurement and Limitations
-The data reflects polling information collected from various sources, each with its own methodology and potential biases. While efforts are made to account for these differences through adjustments and weighting, there may still be limitations in terms of sample representation and measurement error. Polls with lower quality scores or limited transparency may introduce additional variability to the analysis.
+This study leverages a dataset of polling data for the 2024 U.S. Presidential Election, focusing on predicting support for the two main candidates, Kamala Harris and Donald Trump. Each entry in the dataset represents results from individual polls, capturing both the timing and geographical scope of polling, which is crucial for analyzing national trends and state-specific shifts, particularly in key swing states. By collating data from multiple polling sources, the dataset captures a broad snapshot of voter sentiment across the country, reflecting variations across time, poll methodologies, and geographic regions.
 
-## Outcome Variable
-The outcome variable of interest is the percentage of support ("pct") that each candidate receives in the polls. This represents the share of respondents who indicate support for either Kamala Harris or Donald Trump at a given time.
+The outcome variable, **Polling Percentage ("pct")**, represents the percentage of respondents in each poll who indicate support for either Harris or Trump. This variable is central to our analysis, as it reflects the changing landscape of voter sentiment and serves as the basis for our forecasts.
 
-## Predictor Variables
+## Predictor and Additional Variables
 
-### Poll Score
-The "pollscore" variable represents the quality and reliability of each poll. Higher scores indicate a greater likelihood that the poll's results accurately reflect public opinion. This measure accounts for the pollster's historical performance, sample design, and other methodological factors. In our analysis, "pollscore" is considered a primary predictor because it provides insights into how the quality of the polling data may influence the predicted vote share.
+- **Days Toward Election ("days_towards_election")**: The primary predictor in the model, this variable indicates the number of days remaining until the election at the time each poll was conducted. It is essential for capturing time-based trends, enabling the model to adjust for shifts in public opinion as the election approaches. As the election nears, this variable helps illustrate the patterns of support stabilization, often observed closer to election day.
 
-### Transparency Score
-The "transparency_score" variable captures the extent to which pollsters disclose their methodology and data collection practices. Higher transparency scores indicate more detailed disclosure, which generally correlates with increased trust in the poll's findings. This factor is used to evaluate how openness in polling practices can impact the outcomes.
+Additional potential predictors include variables reflecting the quality, sample characteristics, and transparency of each poll, which help contextualize the primary predictor and provide an understanding of polling reliability:
 
-### Sample Size
-The number of respondents in each poll, represented by "sample_size," is a key factor influencing the precision of polling estimates. Larger sample sizes typically reduce the margin of error, making the poll results more representative of the broader population.
+- **Poll Quality Score ("pollscore")**: This variable captures the methodological reliability of each poll, including factors such as sampling technique and historical accuracy. Polls with higher scores typically offer more robust estimates, as they reflect the pollster’s performance and adherence to reliable sampling practices.
+  
+- **Transparency Score ("transparency_score")**: This score measures the level of methodological detail each poll discloses. Higher transparency generally correlates with increased confidence in the data, as it indicates comprehensive disclosure of methods, sample details, and collection practices.
 
-### State
-The "state" variable accounts for regional differences in voting preferences. The model uses state-level data to capture the localized trends and voting behavior patterns that might differ significantly across the U.S.
+- **Sample Size ("sample_size")**: The number of respondents in each poll is crucial for assessing precision. Larger sample sizes tend to reduce the margin of error, making the estimates more representative of the general population.
 
-### Days Towards Election
-This variable measures the number of days remaining until the election at the time the poll was conducted. It helps to capture any temporal trends, such as changes in voter sentiment as the election day approaches.
+- **State ("state")**: This geographic variable distinguishes between national and state-level polls, allowing the model to capture regional variations in voter support. State-specific polling data are particularly valuable for modeling outcomes in swing states, where election outcomes often hinge on narrow margins.
 
-## Data Cleaning
-In the data cleaning process, we adjusted the dataset to calculate the expected votes for Kamala Harris and Donald Trump by scaling their average percentages according to the sample size. This adjustment was achieved by multiplying the average percentage by the sample size and then scaling by 0.01. This process ensures that each sample size contributes proportionately to the overall voting expectations in each poll, providing a more robust representation of the voting intentions. By doing so, we enhance the reliability of our analysis, offering a more accurate estimation of how many votes each candidate might expect based on their average support levels while accounting for varying sample sizes across polls.
+## Measurement and Data Processing
+
+Each variable in the dataset is constructed to accurately reflect polling characteristics across various dimensions of time, geography, and poll quality. Poll quality and transparency scores are derived based on historical pollster performance and disclosure levels, offering an indirect measure of data reliability. The primary predictor, **days toward election**, and the outcome variable, **pct**, are drawn directly from each poll entry. Polling percentages are scaled by sample size, which provides a weighted measure of candidate support, ensuring that polls with larger sample sizes have a proportionally greater impact on model predictions.
+
+To enhance interpretability and prediction accuracy, we adjusted the dataset by scaling polling percentages to reflect each poll’s sample size, multiplying average support by sample size, and normalizing by 0.01. This process ensures that larger samples contribute more meaningfully to the model’s overall prediction, thus offering a balanced representation of likely voting intentions.
+
+## Exploratory Data Analysis and Summary Statistics
+
+To understand the general trends in the data, we conducted exploratory data analysis using summary statistics and visualizations. Figure 1 (below) illustrates the polling percentages for each candidate over time, allowing us to observe fluctuations in support as the election day draws near. 
 
 ```{r}
 #| warning: false
 #| message: false
 #| echo: false
 #| label: fig-pct
+#| fig-cap: Polling Percentage over Time by Candidate
 data %>% filter(candidate_name %in% c("Kamala Harris", "Donald Trump")) %>% 
   mutate(end_date = as.Date(end_date, format = "%m/%d/%y")) %>% 
   filter(end_date > as.Date("2024-01-01")) %>% 
@@ -94,7 +98,6 @@ data %>% filter(candidate_name %in% c("Kamala Harris", "Donald Trump")) %>%
   geom_point(alpha = 0.2) +
   geom_smooth() +
   labs(
-    title = "Polling Percentage over Time by Candidate",
     x = "End Date",
     y = "Polling Percentage (%)",
     color = "Candidate"
@@ -117,6 +120,9 @@ On the other hand, the Primary Model is designed to provide a more granular proj
 #| echo: false
 #| message: false
 #| warning: false
+#| label: tbl-baseline
+#| tbl-cap: Baseline Model
+
 fit_model <- function(data, candidate) {
   candidate_data <- data %>% filter(candidate_name == candidate)
   
@@ -194,6 +200,9 @@ The baseline model aggregates national polling data to predict a winner, with al
 #| echo: false
 #| message: false
 #| warning: false
+#| label: tbl-primary
+#| tbl-cap: Primary Model
+
 data_nevada <- data %>% filter(state == "Nevada") 
 data_arizona <- data %>% filter(state == "Arizona") 
 data_wisconsin <- data %>% filter(state == "Wisconsin") 
@@ -319,11 +328,16 @@ The Primary Model, focusing on swing states, is particularly valuable because of
 Additionally, the linear relationship assumed in these models is justified by the often gradual and linear shifts in voter preferences over short periods, especially as the election date nears. State projections are treated independently, consistent with the winner-take-all approach in most U.S. states. Although linear models are generally effective for capturing large-scale polling trends, alternative approaches, such as Bayesian methods for quantifying uncertainty, could be considered for highly volatile polling scenarios. Nonetheless, the current models’ simplicity and interpretability make them particularly suitable for capturing the aggregate and state-level trends necessary for this election forecast, providing a balanced approach that aligns well with the complexities of the U.S. electoral system.
 
 # Results{#sec-results}
+The results from our forecasting models provide insight into predicted support levels for Kamala Harris and Donald Trump, drawing from both national and state-level polling data. Each model presents a distinct view of candidate support and projected outcomes based on trends in polling data as election day approaches.
+
+## National Polling Trends and Baseline Model Results
+The Baseline Model evaluates national polling data to project which candidate would win all electoral votes based on the higher national polling percentage on election day. The intercept term, representing predicted support on election day, shows that Kamala Harris is expected to receive approximately 48.19% of the national vote, while Donald Trump is projected to receive around 46.01%. This 2.18 percentage point lead for Harris in the Baseline Model suggests a slight advantage for her on a national scale. This model illustrates overall voter sentiment trends, capturing how each candidate's support changes as election day approaches and indicating a national-level lean toward Harris if these trends hold.
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
-
+#| label: tbl-baselineresult
+#| tbl-cap: Baseline Model Result
 
 
 intercept_results_baseline <- final_results_baseline %>%
@@ -342,10 +356,17 @@ intercept_wide_baseline <- intercept_wide_baseline %>%
 kable(intercept_wide_baseline)
 ```
 
+## Swing State Analysis and Primary Model Results
+In contrast, the Primary Model delves into state-specific polling data, focusing on swing states where vote margins are especially narrow and could decisively impact the electoral outcome. Intercept estimates for each candidate across key swing states show a mixed pattern, with Harris projected to lead in states like Wisconsin (49.30% vs. 46.67%) and Pennsylvania (48.84% vs. 47.21%), where her support surpasses Trump’s by 2.64 and 1.63 percentage points, respectively. However, Trump maintains a lead in Arizona (48.80% vs. 47.10%) and Georgia (48.59% vs. 47.82%), reflecting the competitive nature of these swing states.
+
+Table 1 provides a summary of intercept estimates for both candidates across swing states, showing how close these races remain. Harris's estimated advantage in states like Wisconsin and Pennsylvania signals potential strategic wins in the electoral college, while Trump’s narrow leads in Arizona and Georgia underscore the contested nature of the 2024 election in these battleground areas.
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
+#| label: tbl-primaryresult
+#| tbl-cap: Primary Model Result
+
 intercept_results <- final_results %>%
   filter(term == "(Intercept)")
 
@@ -361,6 +382,11 @@ intercept_wide <- intercept_wide %>%
 # View the results with differences
 kable(intercept_wide)
 ```
+
+## Electoral Vote Projections
+Integrating the swing state projections with solid state predictions, the Primary Model estimates the electoral vote totals for each candidate. Kamala Harris is projected to win 292 electoral votes, surpassing the 270-vote threshold required to secure victory. Donald Trump, by comparison, is projected to receive 246 electoral votes. This projection, based on aggregating state-level outcomes, suggests that Harris has a favorable chance of achieving the necessary electoral college majority if current polling trends continue. The model indicates that Harris’s projected wins in swing states like Wisconsin, Michigan, and Pennsylvania could be critical to her securing an electoral majority.
+
+These results from both the Baseline and Primary Models provide distinct perspectives on the likely outcome of the 2024 U.S. Presidential Election. The Baseline Model projects a national-level popular vote advantage for Harris, while the Primary Model’s state-based approach points to an electoral college path for her, albeit with highly competitive results in key swing states that remain essential to the final outcome.
 
 ```{r}
 #| echo: false
@@ -389,26 +415,33 @@ kable(total_votes, caption = "Predicted Electoral Votes for Each Candidate")
 
 # Discussion{#sec-disc}
 
-## Key Findings
+## Summary of Contributions
 
-The analysis demonstrates that poll quality (as measured by poll scores) and transparency are significant predictors of support for both Kamala Harris and Donald Trump. Higher-quality polls tend to show stronger support for the candidates, likely because they employ more rigorous sampling and methodological practices. Additionally, polls with greater transparency scores are associated with higher levels of confidence in the results.
+This paper presents a polling-based forecasting model for the 2024 U.S. Presidential Election, utilizing two complementary approaches to predict candidate support for Kamala Harris and Donald Trump. The **Baseline Model** (Winner-Take-All National Model) offers a straightforward projection of overall national sentiment by aggregating national polling data, while the **Primary Model** (Swing State-Based Model) provides a more refined, state-specific analysis, focusing especially on swing states crucial to the electoral college outcome. The two models together balance broad sentiment tracking with the targeted detail needed for swing-state-specific electoral forecasting. Through this dual approach, the analysis captures both national-level trends and the granular dynamics within pivotal swing states, offering an informative look into the likely distribution of popular and electoral votes as election day approaches.
 
-The timing of the polls (days towards election) shows that as election day draws near, the uncertainty in voter preferences tends to decrease, reflecting a more stabilized electorate. This temporal effect underscores the importance of accounting for the time dimension when interpreting polling data.
+## Insights into Election Dynamics
 
-Regional differences captured by the state variable reveal that voter support is not uniform across the U.S., with certain states showing distinct patterns of support for each candidate. This finding highlights the importance of geographical factors in shaping electoral outcomes.
+The results reveal critical insights into the nature of U.S. elections and the structure of the electoral college system. One key takeaway from this analysis is that winning the national popular vote does not guarantee a candidate’s victory in the U.S. presidential election. The Baseline Model indicates a potential popular vote lead for Kamala Harris; however, the ultimate victory depends on success within specific swing states, as highlighted by the Primary Model. This reflects a unique feature of the U.S. election system, where a candidate can win the presidency without securing the majority of the popular vote by focusing on electoral votes, especially in key battleground regions. Therefore, while Harris’s projected national lead is notable, the Primary Model’s swing-state analysis underscores the importance of targeting resources and strategies in these competitive areas.
 
-## Weaknesses and Limitations
+## Comparison of Model Effectiveness
 
-While the model provides valuable insights, it has limitations. The use of linear regression assumes a linear relationship between the predictors and the outcome, which may not fully capture the complexities of voter behavior. Additionally, the reliance on poll scores and transparency measures may not account for all sources of bias in the data, such as social desirability bias or non-response bias.
+Each model brings distinct strengths and weaknesses, serving different forecasting needs. The **Baseline Model** provides a broad, data-rich perspective, aggregating a large volume of polling data to capture general national sentiment. This simplicity allows for a straightforward, easy-to-understand representation of national trends in support levels. However, this model does not account for the state-by-state dynamics critical to winning the electoral college and may oversimplify the complexities of an election where only the electoral votes, not the popular vote, decide the winner.
 
-Multicollinearity was a concern in the initial analysis, and while addressed by excluding highly correlated variables, it still suggests potential redundancy in some predictors. Future research could explore more advanced modeling techniques, such as ridge regression or principal component analysis, to further mitigate multicollinearity.
+In contrast, the **Primary Model** offers more precise predictions by incorporating state-level polling data for swing states, which are decisive in the electoral college outcome. By focusing on these battleground areas, the model provides a nuanced picture that aligns more closely with the mechanics of the U.S. election system. This model, however, requires more detailed data for each state and is therefore less broadly applicable to a general sense of popular sentiment but is far more insightful for understanding likely outcomes under the electoral college system.
+
+## Limitations and Areas for Improvement
+
+Despite the insights provided by both models, there are limitations to this approach. The models rely on polling data, which is inherently subject to variability and potential biases, such as non-response bias, sampling errors, and the limitations of data collection methods across different polling organizations. Additionally, both models assume a linear trend in polling changes as election day approaches, which may not fully capture sudden shifts in voter sentiment that can occur due to unforeseen events, campaign dynamics, or emerging social issues.
+
+Furthermore, the Baseline Model’s national aggregate approach does not account for the unique political landscape within individual states, potentially underestimating the nuances in regional voting behaviors. Meanwhile, the Primary Model, while more granular, requires extensive state-specific data that may not be consistently available or reliable across all swing states.
 
 ## Future Directions
 
-Further research could incorporate more dynamic modeling approaches, such as time-series analysis, to better capture the changing nature of voter preferences over time. Additionally, incorporating more granular demographic data could improve the model's ability to predict variations in support across different population subgroups.
+Future research could benefit from integrating more sophisticated methods to address the limitations of linear assumptions and polling variability. For instance, incorporating time-series models that allow for non-linear trends could better capture sudden shifts in voter sentiment over time. Additionally, exploring Bayesian models to handle polling uncertainty more effectively may provide a way to quantify the degree of confidence in each state’s predicted support levels.
 
-Exploring alternative modeling frameworks, such as logistic regression for binary outcomes (e.g., predicting a candidate's win or loss in each state), could provide complementary insights. Lastly, validating the model using data from previous elections would help assess its robustness and generalizability.
+Further improvements could also be achieved by incorporating demographic and socio-economic data to create more robust and representative models of each state’s voter base. Finally, validating these models using historical data from previous elections could enhance their robustness and accuracy, offering a clearer picture of how these methods perform under different electoral conditions.
 
+In conclusion, this study demonstrates the importance of integrating both national and state-level data for election forecasting and highlights how U.S. election outcomes hinge on both popular and electoral vote dynamics. By combining the strengths of a broad national model and a targeted swing-state approach, this paper provides a comprehensive framework for anticipating electoral outcomes in a system where popular sentiment and electoral mechanics are often misaligned.
 
 \newpage
 
@@ -666,34 +699,6 @@ Thank you for completing the survey! Your input is greatly appreciated and will 
 
 ## Google Forms Link
 [https://forms.gle/2MGYeZavDsCNuWZ1A](https://forms.gle/2MGYeZavDsCNuWZ1A)
-
-
-
-
-
-
-# Model details {#sec-model-details}
-
-## Posterior predictive check
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-```
-
-## Diagnostics
-
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-```
-
-
-
-\newpage
 
 
 # References
