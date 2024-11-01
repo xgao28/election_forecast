@@ -109,11 +109,9 @@ data %>% filter(candidate_name %in% c("Kamala Harris", "Donald Trump")) %>%
 
 # Model{#sec-model}
 
-The goal of our modeling strategy is twofold. Firstly, we aim to estimate the candidates' support levels based on various polling-related factors, accounting for differences in poll quality, timing, sample characteristics, and geographical variations. Secondly, we seek to assess how well these factors predict electoral outcomes and identify which variables are most influential in shaping public opinion.
+In this study, we employ two main models to forecast the outcome of the 2024 U.S. Presidential Election using polling data for the candidates Kamala Harris and Donald Trump. The models, a Baseline Model (Winner-Take-All National Model) and a Primary Model (Swing State-Based Model), provide two distinct but complementary approaches to assessing candidate support. The Baseline Model aggregates national polling data to project which candidate is likely to win based on national polling trends and assigns all electoral votes to the candidate with the higher projected national percentage on election day. This approach offers a straightforward prediction of overall voter sentiment across the country and captures the aggregate trend of support for each candidate as the election approaches.
 
-The model employed is a multiple linear regression, where the response variable is the percentage of support ("pct") for each candidate in the polls. The predictors include "pollscore" (indicating the quality of the poll), "transparency_score" (reflecting methodological disclosure), "sample_size" (number of respondents), "state" (geographical indicator), and "days_towards_election" (timing of the poll).
-
-## Model set-up
+On the other hand, the Primary Model is designed to provide a more granular projection by focusing on polling data at the state level, particularly for key swing states. This model assumes that the winner in each swing state can be determined by state-specific polling trends, and it projects support for each candidate within these competitive regions. By combining outcomes from both swing states and solid states, this model allows for a more nuanced prediction that aligns with the actual mechanics of the Electoral College. Together, these models are well-suited to address both the general national polling trends and the crucial role of swing states in determining the final electoral outcome.
 
 ```{r baseline model}
 #| echo: false
@@ -158,7 +156,39 @@ kable(final_results)
 
 
 
+## 1. Baseline Model (Winner-Take-All National Model)
+The baseline model aggregates national polling data to predict a winner, with all electoral votes awarded to the candidate with the higher national polling percentage.
 
+1. **National Polling Projections**  
+   Let:
+   - $P_H(t)$: Harris’s national polling percentage at $t$ days towards the election.
+   - $P_T(t)$: Trump’s national polling percentage at $t$ days towards the election.
+
+   We model each candidate’s polling as:
+   $$
+   P_H(t) = \alpha_H + \beta_H t
+   $$
+   $$
+   P_T(t) = \alpha_T + \beta_T t
+   $$
+
+   where $\alpha_H$ and $\alpha_T$ are the intercepts (predicted percentages on election day, $t = 0$), and $\beta_H$ and $\beta_T$ are the slopes.
+
+2. **Election Day Prediction**  
+   On election day:
+   $$
+   P_H(0) = \alpha_H, \quad P_T(0) = \alpha_T
+   $$
+
+3. **Winner-Take-All Outcome**  
+   The candidate with the higher predicted national percentage wins all electoral votes:
+   $$
+   W = 
+   \begin{cases} 
+   \text{Harris wins (all electoral votes)} & \text{if } \alpha_H > \alpha_T \\
+   \text{Trump wins (all electoral votes)} & \text{otherwise}
+   \end{cases}
+   $$
 
 ```{r our model}
 #| echo: false
@@ -225,87 +255,7 @@ kable(final_results)
 
 ```
 
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-intercept_results <- final_results %>%
-  filter(term == "(Intercept)")
-
-# Spread the results into wide format
-intercept_wide <- intercept_results %>%
-  select(state, candidate, estimate) %>%
-  pivot_wider(names_from = candidate, values_from = estimate, values_fill = NA)
-
-# Calculate the difference in estimates between candidates
-intercept_wide <- intercept_wide %>%
-  mutate(difference = `Kamala Harris` - `Donald Trump`)
-
-# View the results with differences
-kable(intercept_wide)
-```
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-solid_state_votes <- data.frame(
-  Candidate = c("Harris", "Trump"),
-  Solid_State_Votes = c(226, 219)
-)
-intercept_wide$electoral_votes <- c(6, 11, 10, 15, 19, 16, 16)
-
-swing_state_results <- intercept_wide %>%
-  mutate(Winner = ifelse(difference > 0, "Harris", "Trump")) %>%
-  group_by(Winner) %>%
-  summarize(Predicted_Swing_State_Votes = sum(electoral_votes))
-
-total_votes <- solid_state_votes %>%
-  left_join(swing_state_results, by = c("Candidate" = "Winner")) %>%
-  mutate(Predicted_Swing_State_Votes = ifelse(is.na(Predicted_Swing_State_Votes), 0, Predicted_Swing_State_Votes),
-         Total_Predicted_Votes = Solid_State_Votes + Predicted_Swing_State_Votes)
-
-kable(total_votes, caption = "Predicted Electoral Votes for Each Candidate")
-```
-
-
-### Model Formulations
-
-#### 1. Baseline Model (Winner-Take-All National Model)
-The baseline model aggregates national polling data to predict a winner, with all electoral votes awarded to the candidate with the higher national polling percentage.
-
-1. **National Polling Projections**  
-   Let:
-   - $P_H(t)$: Harris’s national polling percentage at $t$ days towards the election.
-   - $P_T(t)$: Trump’s national polling percentage at $t$ days towards the election.
-
-   We model each candidate’s polling as:
-   $$
-   P_H(t) = \alpha_H + \beta_H t
-   $$
-   $$
-   P_T(t) = \alpha_T + \beta_T t
-   $$
-
-   where $\alpha_H$ and $\alpha_T$ are the intercepts (predicted percentages on election day, $t = 0$), and $\beta_H$ and $\beta_T$ are the slopes.
-
-2. **Election Day Prediction**  
-   On election day:
-   $$
-   P_H(0) = \alpha_H, \quad P_T(0) = \alpha_T
-   $$
-
-3. **Winner-Take-All Outcome**  
-   The candidate with the higher predicted national percentage wins all electoral votes:
-   $$
-   W = 
-   \begin{cases} 
-   \text{Harris wins (all electoral votes)} & \text{if } \alpha_H > \alpha_T \\
-   \text{Trump wins (all electoral votes)} & \text{otherwise}
-   \end{cases}
-   $$
-
-#### 2. Primary Model (Swing State-Based Model)
+## 2. Primary Model (Swing State-Based Model)
 This model forecasts electoral outcomes by projecting state-level polling results for each candidate, combining swing state outcomes with votes from solid states.
 
 1. **Swing State Polling Projections**  
@@ -362,32 +312,64 @@ This model forecasts electoral outcomes by projecting state-level polling result
 
 ## Model justification
 
-The multiple linear regression approach is justified for several reasons. Firstly, it provides a straightforward method for estimating the relationship between the percentage of support for each candidate and the set of predictors, allowing for the quantification of the impact of each factor. This is suitable for forecasting purposes where interpretability and direct estimation of effects are important.
+The two-model approach is justified by the need to capture both national and state-level dynamics in election forecasting. The Baseline Model’s focus on national polling trends is appropriate for understanding the overall sentiment of the voting population, providing an aggregate view that reflects general support levels for each candidate. Since national support can indicate the broader trajectory of an election, the Winner-Take-All National Model captures this sentiment in a straightforward, interpretable way. The inclusion of a temporal component, represented by days toward the election, allows both models to track changes in support levels as the election day approaches. This time-based element is critical, as voter sentiment often fluctuates and solidifies in the lead-up to an election, especially with the influence of campaign events and media coverage.
 
-Secondly, the linear model is flexible enough to accommodate a range of continuous and categorical predictors, such as "pollscore" and "state." The model captures the additive effect of each predictor on the outcome, making it possible to assess the contribution of polling quality, timing, sample characteristics, and regional differences individually.
+The Primary Model, focusing on swing states, is particularly valuable because of the unique structure of the U.S. Electoral College, where specific states can disproportionately influence the final outcome. Including state-specific intercepts and slopes enables this model to account for localized variations in support, reflecting the critical importance of state-level outcomes in swing regions. By incorporating state indicators, this model can address the heterogeneity of voting behavior across different regions, capturing the specific dynamics of battleground states where candidate support may diverge significantly from national trends. Aggregating the electoral votes based on projected winners in both swing and solid states makes this model well-aligned with real-world electoral processes, enhancing its practical utility in forecasting the election outcome.
 
-Furthermore, linear regression is appropriate here because it assumes a linear relationship between the predictors and the response variable. Given the nature of the predictors—where factors like polling quality and sample size are expected to linearly influence support levels—it aligns well with the data characteristics.
-
-Lastly, the choice of linear regression allows for diagnosing issues such as multicollinearity, which was a potential concern with correlated variables. By excluding highly correlated predictors (e.g., "numeric_grade"), the model specification avoids problems with unstable coefficient estimates and enhances interpretability.
-
-Overall, the linear regression model provides a well-suited approach to understanding and predicting candidate support in the context of the 2024 U.S. Presidential Election.
-
+Additionally, the linear relationship assumed in these models is justified by the often gradual and linear shifts in voter preferences over short periods, especially as the election date nears. State projections are treated independently, consistent with the winner-take-all approach in most U.S. states. Although linear models are generally effective for capturing large-scale polling trends, alternative approaches, such as Bayesian methods for quantifying uncertainty, could be considered for highly volatile polling scenarios. Nonetheless, the current models’ simplicity and interpretability make them particularly suitable for capturing the aggregate and state-level trends necessary for this election forecast, providing a balanced approach that aligns well with the complexities of the U.S. electoral system.
 
 # Results{#sec-results}
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
 
-The results from the linear regression models for both Kamala Harris and Donald Trump indicate the impact of the selected predictors on their percentage of support in the polls. The model summaries provide estimates for each coefficient, along with their statistical significance.
+```
 
-## Model Summaries
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+intercept_results <- final_results %>%
+  filter(term == "(Intercept)")
 
-For each candidate, the models show the estimated effects of the following predictors: poll score, transparency score, sample size, state, and days towards election. Key findings include:
+# Spread the results into wide format
+intercept_wide <- intercept_results %>%
+  select(state, candidate, estimate) %>%
+  pivot_wider(names_from = candidate, values_from = estimate, values_fill = NA)
 
-- **Poll Score**: For both candidates, higher poll scores are positively associated with higher predicted support. This indicates that polls with better quality and reliability tend to show greater support levels for the candidates.
-- **Transparency Score**: The transparency score has a significant effect on the predicted support, suggesting that polls with more disclosure practices yield different results compared to less transparent polls.
-- **Sample Size**: Larger sample sizes have a positive association with predicted support levels. This aligns with the expectation that more extensive polling samples provide more precise estimates.
-- **State**: The state variable captures regional differences in candidate support, highlighting significant variations across different states.
-- **Days Towards Election**: The timing of the poll relative to the election date also impacts the predicted support. As the election date approaches, there is typically a convergence in voter preferences, affecting the estimated levels of support.
+# Calculate the difference in estimates between candidates
+intercept_wide <- intercept_wide %>%
+  mutate(difference = `Kamala Harris` - `Donald Trump`)
 
-The model results confirm that these factors collectively provide a reasonable basis for predicting support for the candidates. The residuals and diagnostic checks (not shown here) indicate no major violations of model assumptions, suggesting that the linear model fits the data adequately.
+# View the results with differences
+kable(intercept_wide)
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+solid_state_votes <- data.frame(
+  Candidate = c("Harris", "Trump"),
+  Solid_State_Votes = c(226, 219)
+)
+intercept_wide$electoral_votes <- c(6, 11, 10, 15, 19, 16, 16)
+
+swing_state_results <- intercept_wide %>%
+  mutate(Winner = ifelse(difference > 0, "Harris", "Trump")) %>%
+  group_by(Winner) %>%
+  summarize(Predicted_Swing_State_Votes = sum(electoral_votes))
+
+total_votes <- solid_state_votes %>%
+  left_join(swing_state_results, by = c("Candidate" = "Winner")) %>%
+  mutate(Predicted_Swing_State_Votes = ifelse(is.na(Predicted_Swing_State_Votes), 0, Predicted_Swing_State_Votes),
+         Total_Predicted_Votes = Solid_State_Votes + Predicted_Swing_State_Votes)
+
+kable(total_votes, caption = "Predicted Electoral Votes for Each Candidate")
+```
+
+![Result](../other/photos/Predicted_Result.png){#fig-result}
 
 # Discussion{#sec-disc}
 
