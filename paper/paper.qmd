@@ -8,7 +8,7 @@ author:
 thanks: "Code and data are available at: [https://github.com/xgao28/election_forecast](https://github.com/xgao28/election_forecast)."
 date: today
 date-format: long
-abstract: "The 2024 U.S. Presidential Election is one of the most anticipated political events, with significant implications for the future direction of the country. This paper presents a poll-based forecasting model that leverages polling data to predict voter support for the major candidates, Kamala Harris and Donald Trump. Using multiple linear regression, the model incorporates factors such as poll quality, transparency, sample size, geographic variation, and temporal trends to estimate each candidate's share of support. The findings highlight key predictors that influence electoral outcomes, offering insights into voter behavior and polling dynamics. The approach aims to provide a robust forecast of the election, accounting for methodological variability across polls."
+abstract: "This paper presents a forecasting model for the 2024 U.S. Presidential Election, using polling data to analyze voter support for Kamala Harris and Donald Trump. Our approach combines a Baseline Model, which captures national polling trends, with a Primary Model focused on key swing states. Findings suggest a national advantage for Harris, with critical leads in swing states that could secure her a projected 292 electoral votes. This dual-model approach underscores the influence of state-level dynamics on national outcomes, offering insights into how polling data can more accurately capture voter behavior across a diverse electoral landscape."
 format: pdf
 toc: true
 number-sections: true
