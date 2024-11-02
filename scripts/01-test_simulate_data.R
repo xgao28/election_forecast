@@ -1,4 +1,4 @@
-# Purpose: Tests the analysis data. 
+# Purpose: Tests the simulated data.
 # Author: Xinxiang Gao
 # Date: 31 October 2024
 # Contact: xinxiang.gao@mail.utoronto.ca
@@ -10,8 +10,7 @@ library(tidyverse)
 library(validate)
 
 # Load data
-# data <- read_csv("data/00-simulated_data/simulated_polls.csv")
-data <- read_csv("data/02-analysis_data/cleaned_president_polls.csv")
+data <- read_csv("data/00-simulated_data/simulated_polls.csv")
 
 # Define validation rules
 rules <- validator(
@@ -44,5 +43,3 @@ validation_results <- confront(data, rules)
 
 # Summary of validation
 summary(validation_results)
-
-

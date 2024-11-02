@@ -8,7 +8,7 @@ This repo aims to build a linear, or generalized linear, model to forecast the w
 
 The repo is structured as:
 
--   `data/raw_data` contains the raw data as obtained from X.
+-   `data/raw_data` contains the raw data as obtained from https://projects.fivethirtyeight.com/polls/president-general/2024/national/ following Data Retrieval procedures. 
 -   `data/analysis_data` contains the cleaned dataset that was constructed.
 -   `model` contains fitted models. 
 -   `other` contains relevant literature, details about LLM chat interactions, and sketches.
@@ -22,9 +22,3 @@ Data about polling outcomes from https://projects.fivethirtyeight.com/polls/pres
 ## Statement on LLM usage
 
 Aspects of the code were written with the help of ChatGPT. The entire chat history is available in inputs/llms/usage.txt.
-
-## Some checks
-
-- [ ] Remove files that you're not using
-- [ ] Update comments in R scripts
-- [ ] Remove this checklist
