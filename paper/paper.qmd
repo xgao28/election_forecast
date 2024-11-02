@@ -49,7 +49,6 @@ The primary estimand in this study is the predicted percentage of support each c
 #| warning: false
 #| include: false
 data <- read.csv("../data/02-analysis_data/cleaned_president_polls.csv")
-skim(data)
 ```
 
 
@@ -83,9 +82,49 @@ To enhance interpretability and prediction accuracy, we adjusted the dataset by 
 
 ## Exploratory Data Analysis and Summary Statistics
 
+### Multicollinearity Considerations
+```{r pairplot}
+#| warning: false
+#| message: false
+#| echo: false
+numeric_data <- data %>% 
+  select(where(is.numeric)) %>% 
+  select(numeric_grade, pollscore, transparency_score) %>% 
+  filter(complete.cases(.))
+# Create a pair plot
+ggpairs(numeric_data) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8, margin = margin(t = 10)),
+    axis.text.y = element_text(size = 8, margin = margin(r = 10)),
+    strip.text = element_text(size = 6)  # Adjusts the size of variable name tags
+  )
+```
+While selecting the predictors for the model, multicollinearity was a key concern. Multicollinearity occurs when two or more predictors are highly correlated, which can inflate the variance of the coefficient estimates and make the model less reliable. In our pair plot analysis, we observed a high correlation between "numeric_grade" and "pollscore," suggesting that they measure similar aspects of polling quality.
+
 ```{r}
 data_swing <- data %>% filter(state %in% c("Nevada", "Arizona", "Wisconsin", "Michigan", "Pennsylvania", "North Carolina", "Georgia")) 
 
+data_swing %>%
+  group_by(state) %>% 
+  summarise(count = n(),
+            `mean pollscore` = round(mean(pollscore, na.rm = TRUE), 3),
+            `mean numeric grade` = round(mean(numeric_grade, na.rm = TRUE), 3),
+            `mean transparency score` = round(mean(transparency_score, na.rm = TRUE), 3),
+            `mean sample size` = round(mean(sample_size, na.rm = TRUE))) %>% 
+  kable()
+```
+
+```{r}
+data %>% 
+  filter(sample_size < 10000) %>% 
+  ggplot(aes(x = sample_size)) +
+  geom_histogram(bins = 50, fill = "steelblue", color = "black")
+```
+
+```{r}
+data %>% 
+  filter(sample_size >= 10000) %>% 
+  arrange(sample_size)
 ```
 
 
@@ -263,7 +302,8 @@ for (candidate in candidate_names) {
 }
 
 # Combine results for all candidates into a single data frame
-final_results <- bind_rows(results, .id = "candidate")
+final_results <- bind_rows(results, .id = "candidate") %>% 
+  arrange(state, candidate)
 
 # View the final results
 kable(final_results, row.names = FALSE)
@@ -307,6 +347,7 @@ The results from our forecasting models provide insight into predicted support l
 
 ## National Polling Trends and Baseline Model Results
 The Baseline Model evaluates national polling data to project which candidate would win all electoral votes based on the higher national polling percentage on election day. The intercept term, representing predicted support on election day, shows that Kamala Harris is expected to receive approximately 48.19% of the national vote, while Donald Trump is projected to receive around 46.01%. This 2.18 percentage point lead for Harris in the Baseline Model suggests a slight advantage for her on a national scale. This model illustrates overall voter sentiment trends, capturing how each candidate's support changes as election day approaches and indicating a national-level lean toward Harris if these trends hold.
+
 ```{r}
 #| echo: false
 #| message: false

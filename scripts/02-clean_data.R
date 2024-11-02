@@ -31,7 +31,10 @@ data$days_towards_election <- data_a$days_towards_election
 selected_columns <- c(
   "poll_id",
   "transparency_score", 
+  "numeric_grade",
+  "pollscore",
   "state", 
+  "sample_size",
   "end_date", 
   "party", 
   "candidate_name", 
@@ -40,8 +43,6 @@ selected_columns <- c(
 )
 data <- data %>%
   select(all_of(selected_columns)) 
-
-
 
 
 #### Save data ####
