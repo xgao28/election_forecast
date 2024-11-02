@@ -83,6 +83,12 @@ To enhance interpretability and prediction accuracy, we adjusted the dataset by 
 
 ## Exploratory Data Analysis and Summary Statistics
 
+```{r}
+data_swing <- data %>% filter(state %in% c("Nevada", "Arizona", "Wisconsin", "Michigan", "Pennsylvania", "North Carolina", "Georgia")) 
+
+```
+
+
 To understand the general trends in the data, we conducted exploratory data analysis using summary statistics and visualizations. Figure 1 (below) illustrates the polling percentages for each candidate over time, allowing us to observe fluctuations in support as the election day draws near. 
 
 ```{r}
@@ -112,9 +118,9 @@ data %>% filter(candidate_name %in% c("Kamala Harris", "Donald Trump")) %>%
 
 # Model{#sec-model}
 
-In this study, we employ two main models to forecast the outcome of the 2024 U.S. Presidential Election using polling data for the candidates Kamala Harris and Donald Trump. The models, a Baseline Model (Winner-Take-All National Model) and a Primary Model (Swing State-Based Model), provide two distinct but complementary approaches to assessing candidate support. The Baseline Model aggregates national polling data to project which candidate is likely to win based on national polling trends and assigns all electoral votes to the candidate with the higher projected national percentage on election day. This approach offers a straightforward prediction of overall voter sentiment across the country and captures the aggregate trend of support for each candidate as the election approaches.
+In this study, we employ two main models to forecast the outcome of the 2024 U.S. Presidential Election using polling data for the candidates Kamala Harris and Donald Trump. The models, a Baseline Model (Winner-Take-All National Model) and a Swing State-Based Model, provide two distinct but complementary approaches to assessing candidate support. The Baseline Model aggregates national polling data to project which candidate is likely to win based on national polling trends and assigns all electoral votes to the candidate with the higher projected national percentage on election day. This approach offers a straightforward prediction of overall voter sentiment across the country and captures the aggregate trend of support for each candidate as the election approaches.
 
-On the other hand, the Primary Model is designed to provide a more granular projection by focusing on polling data at the state level, particularly for key swing states. This model assumes that the winner in each swing state can be determined by state-specific polling trends, and it projects support for each candidate within these competitive regions. By combining outcomes from both swing states and solid states, this model allows for a more nuanced prediction that aligns with the actual mechanics of the Electoral College. Together, these models are well-suited to address both the general national polling trends and the crucial role of swing states in determining the final electoral outcome.
+On the other hand, the Swing State-Based Model is designed to provide a more granular projection by focusing on polling data at the state level, particularly for key swing states. This model assumes that the winner in each swing state can be determined by state-specific polling trends, and it projects support for each candidate within these competitive regions. By combining outcomes from both swing states and solid states, this model allows for a more nuanced prediction that aligns with the actual mechanics of the Electoral College. Together, these models are well-suited to address both the general national polling trends and the crucial role of swing states in determining the final electoral outcome.
 
 ```{r baseline model}
 #| echo: false
@@ -128,7 +134,14 @@ fit_model <- function(data, candidate) {
   
   if (nrow(candidate_data) > 0) {  # Check if there are rows for the candidate
     model <- lm(pct ~ days_towards_election, data = candidate_data)
-    tidy_model <- tidy(model)  # Get a tidy summary of the model
+    model_summary <- summary(model)
+    tidy_model <- data.frame(
+      term = rownames(model_summary$coefficients),
+      estimate = round(model_summary$coefficients[, "Estimate"], 3),
+      std.error = round(model_summary$coefficients[, "Std. Error"], 3),
+      t.stat = round(model_summary$coefficients[, "t value"], 3),
+      p.value = round(model_summary$coefficients[, "Pr(>|t|)"], 3)
+    )
     tidy_model$candidate <- candidate  # Add candidate to the output
     return(tidy_model)
   } else {
@@ -153,10 +166,10 @@ for (candidate in candidate_names) {
 }
 
 # Combine results for all candidates into a single data frame
-final_results_baseline <- bind_rows(results, .id = "candidate")
+final_results_baseline <- bind_rows(results)
 
 # View the final results
-kable(final_results_baseline)
+kable(final_results_baseline, row.names = FALSE)
 
 ```
 
@@ -164,8 +177,6 @@ kable(final_results_baseline)
 
 ## 1. Baseline Model (Winner-Take-All National Model)
 The baseline model aggregates national polling data to predict a winner, with all electoral votes awarded to the candidate with the higher national polling percentage.
-
-1. **National Polling Projections**  
    Let:
    - $P_H(t)$: Harris’s national polling percentage at $t$ days towards the election.
    - $P_T(t)$: Trump’s national polling percentage at $t$ days towards the election.
@@ -180,21 +191,9 @@ The baseline model aggregates national polling data to predict a winner, with al
 
    where $\alpha_H$ and $\alpha_T$ are the intercepts (predicted percentages on election day, $t = 0$), and $\beta_H$ and $\beta_T$ are the slopes.
 
-2. **Election Day Prediction**  
-   On election day:
-   $$
-   P_H(0) = \alpha_H, \quad P_T(0) = \alpha_T
-   $$
+Then, our aim is the intercept, $P_H(0) = \alpha_H, \quad P_T(0) = \alpha_T$.
 
-3. **Winner-Take-All Outcome**  
-   The candidate with the higher predicted national percentage wins all electoral votes:
-   $$
-   W = 
-   \begin{cases} 
-   \text{Harris wins (all electoral votes)} & \text{if } \alpha_H > \alpha_T \\
-   \text{Trump wins (all electoral votes)} & \text{otherwise}
-   \end{cases}
-   $$
+We then draw the prediction result as follows: Harris wins (all electoral votes) if $\alpha_H > \alpha_T$, and Trump wins (all electoral votes) otherwise.
 
 ```{r our model}
 #| echo: false
@@ -217,7 +216,14 @@ fit_model <- function(data, candidate) {
   
   if (nrow(candidate_data) > 0) {  # Check if there are rows for the candidate
     model <- lm(pct ~ days_towards_election, data = candidate_data)
-    tidy_model <- tidy(model)  # Get a tidy summary of the model
+    model_summary <- summary(model)
+    tidy_model <- data.frame(
+      term = rownames(model_summary$coefficients),
+      estimate = round(model_summary$coefficients[, "Estimate"], 3),
+      std.error = round(model_summary$coefficients[, "Std. Error"], 3),
+      t.stat = round(model_summary$coefficients[, "t value"], 3),
+      p.value = round(model_summary$coefficients[, "Pr(>|t|)"], 3)
+    )
     tidy_model$state <- unique(candidate_data$state)  # Add state to the output
     tidy_model$candidate <- candidate  # Add candidate to the output
     return(tidy_model)
@@ -260,11 +266,11 @@ for (candidate in candidate_names) {
 final_results <- bind_rows(results, .id = "candidate")
 
 # View the final results
-kable(final_results)
+kable(final_results, row.names = FALSE)
 
 ```
 
-## 2. Primary Model (Swing State-Based Model)
+## 2. Swing State-Based Model
 This model forecasts electoral outcomes by projecting state-level polling results for each candidate, combining swing state outcomes with votes from solid states.
 
 1. **Swing State Polling Projections**  
@@ -282,42 +288,11 @@ This model forecasts electoral outcomes by projecting state-level polling result
 
    where $\alpha_{H_s}$ and $\alpha_{T_s}$ are intercepts (predicted percentages at $t = 0$) and $\beta_{H_s}$, $\beta_{T_s}$ are slopes.
 
-2. **Predicting Swing State Winners**  
-   On election day ($t = 0$), each candidate’s predicted support in state $s$is:
-   $$
-   P_{H_s}(0) = \alpha_{H_s}, \quad P_{T_s}(0) = \alpha_{T_s}
-   $$
+Then, we obtain the predicted polling percentage for Harris in state $s:P_{H_s}(0) = \alpha_{H_s},$ and that for Trump in state $s: \quad P_{T_s}(0) = \alpha_{T_s}$. The candidate mentioned above wins in state s if their predicted polling percentage is higher than the other candidate.
 
-   Define $W_s$ as an indicator for the swing state winner:
-   $$
-   W_s = 
-   \begin{cases} 
-   1 & \text{if } \alpha_{H_s} > \alpha_{T_s} \\
-   0 & \text{otherwise}
-   \end{cases}
-   $$
-
-3. **Electoral Vote Aggregation**  
-   Let $EV_H$ and $EV_T$ represent total electoral votes for Harris and Trump:
-   $$
-   EV_H = \sum_{s \in S} W_s \cdot EV_s + \sum_{s \in S_H} EV_s
-   $$
-   $$
-   EV_T = \sum_{s \in S} (1 - W_s) \cdot EV_s + \sum_{s \in S_T} EV_s
-   $$
-
-4. **Final Election Outcome**  
-   The candidate surpassing 270 electoral votes wins:
-   $$
-   W = 
-   \begin{cases} 
-   \text{Harris wins} & \text{if } EV_H \geq 270 \\
-   \text{Trump wins} & \text{if } EV_T \geq 270 
-   \end{cases}
-   $$
-
-
-
+2. **Electoral Vote Aggregation**  
+  Based on the electoral vote policy in swing states, the winner of the state obtains all the vote from that state. Obtaining the predicted winner of the swing states, we calculate their total electoral votes as two components: their votes from the solid states as mentioned by Electoral Ventures LLC (2024), and the votes from the swing states that would advocate the candidate based on the predictions. 
+  Eventually, the candidate surpassing 270 electoral votes in our prediction wins.
 
 ## Model justification
 
@@ -377,7 +352,10 @@ intercept_wide <- intercept_results %>%
 
 # Calculate the difference in estimates between candidates
 intercept_wide <- intercept_wide %>%
-  mutate(difference = `Kamala Harris` - `Donald Trump`)
+  mutate(Difference = `Kamala Harris` - `Donald Trump`) %>% 
+  rename(State = state)
+
+intercept_wide$`Votes` <- c(6, 11, 10, 15, 19, 16, 16)
 
 # View the results with differences
 kable(intercept_wide)
@@ -394,9 +372,9 @@ These results from both the Baseline and Primary Models provide distinct perspec
 #| warning: false
 solid_state_votes <- data.frame(
   Candidate = c("Harris", "Trump"),
-  Solid_State_Votes = c(226, 219)
+  Solid_State = c(226, 219)
 )
-intercept_wide$electoral_votes <- c(6, 11, 10, 15, 19, 16, 16)
+
 
 swing_state_results <- intercept_wide %>%
   mutate(Winner = ifelse(difference > 0, "Harris", "Trump")) %>%
@@ -406,9 +384,12 @@ swing_state_results <- intercept_wide %>%
 total_votes <- solid_state_votes %>%
   left_join(swing_state_results, by = c("Candidate" = "Winner")) %>%
   mutate(Predicted_Swing_State_Votes = ifelse(is.na(Predicted_Swing_State_Votes), 0, Predicted_Swing_State_Votes),
-         Total_Predicted_Votes = Solid_State_Votes + Predicted_Swing_State_Votes)
+         total = Solid_State + Predicted_Swing_State_Votes) %>% 
+  rename(`Solid State` = Solid_State, `Predicted Swing State` = Predicted_Swing_State_Votes, `Total Predicted Votes` = total)
 
+# View the results
 kable(total_votes, caption = "Predicted Electoral Votes for Each Candidate")
+
 ```
 
 ![Result](../other/photos/Predicted_Result.png){#fig-result}
@@ -703,4 +684,4 @@ Thank you for completing the survey! Your input is greatly appreciated and will 
 
 # References
 
-
+Electoral Ventures LLC, (2024). 270toWin - 2024 Presidential Election Interactive Map. 270toWin.com. https://www.270towin.com/
