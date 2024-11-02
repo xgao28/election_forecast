@@ -418,9 +418,9 @@ solid_state_votes <- data.frame(
 
 
 swing_state_results <- intercept_wide %>%
-  mutate(Winner = ifelse(difference > 0, "Harris", "Trump")) %>%
+  mutate(Winner = ifelse(Difference > 0, "Harris", "Trump")) %>%
   group_by(Winner) %>%
-  summarize(Predicted_Swing_State_Votes = sum(electoral_votes))
+  summarize(Predicted_Swing_State_Votes = sum(Votes))
 
 total_votes <- solid_state_votes %>%
   left_join(swing_state_results, by = c("Candidate" = "Winner")) %>%
