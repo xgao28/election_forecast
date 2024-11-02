@@ -470,51 +470,49 @@ In conclusion, this study demonstrates the importance of integrating both nation
 \appendix
 # Appendix {-}
 
-# Pollster Methodology Overview and Evaluation: YouGov
+# Methodology Analysis of The Economist/YouGov Poll (October 6–7, 2024)
 
-YouGov is a widely recognized survey and market research company that operates one of the largest global online panels, providing insights on public opinion across various topics, from politics to consumer behavior. As an online survey platform, YouGov employs a nonprobability sampling methodology, relying on a self-recruited panel and extensive demographic data to approximate representativeness. This methodology offers several advantages, including cost-efficiency, rapid data collection, and the ability to adapt to specific research needs. However, like all methodologies, it comes with its own set of trade-offs, particularly in terms of representativeness and potential selection biases.
+## Overview
 
-This appendix takes a closer look at YouGov’s sampling approach, panel recruitment methods, handling of non-response, and overall survey methodology. It also includes a reflection on the user experience, examining how elements like the onboarding process and incentive structure can shape participant engagement and data quality. By analyzing the strengths and weaknesses of YouGov’s approach, this paper aims to provide a comprehensive understanding of how YouGov balances methodological rigor with the practical realities of online polling, highlighting both the reliability and the limitations of its data.
+The Economist/YouGov poll, conducted from October 6 to October 7, 2024, involved 1,604 U.S. adult citizens to gather insights into public opinion on the 2024 presidential election and related political issues. YouGov’s approach, known for its consistency in methodology, relies on an online sampling model that utilizes an opt-in panel of respondents. This section provides a comprehensive breakdown of the methodological elements that define this survey: the target population, sampling strategy, handling of non-response, and questionnaire design, while also highlighting its strengths and limitations (@citeYouGovReport).
 
 ## Population, Frame, and Sample
 
-For YouGov surveys, the population often includes U.S. adults or specific subgroups, such as registered voters or other demographic or political segments. The frame from which YouGov draws its samples is its proprietary online panel, consisting of self-recruited individuals who provide extensive demographic information upon joining. This frame is nonprobabilistic and is designed to capture a wide demographic, with adjustments to enhance representativeness through post-survey weighting (YouGov).
+In survey research, the target population is the group of people to whom the survey results are meant to generalize (@citeYouGovWebsite). For the Economist/YouGov poll, the target population includes all U.S. adult citizens, making it representative of the broader American public on political issues. This choice of target population is intended to capture a wide array of perspectives, from various demographics and political affiliations, to gauge national sentiment on the election (@citeYouGovReport).
 
-The sample is selected from this online panel based on survey requirements. For general surveys representing the U.S. adult population, YouGov applies demographic matching and stratified sampling to recruit individuals whose characteristics resemble the target population. For more targeted surveys, such as those involving younger adults or specific voter segments, YouGov filters panelists based on demographic and political characteristics, ensuring that the survey sample aligns with the study's focus (YouGov).
+The sampling frame, in contrast, represents a more specific group within the target population from which the sample is actually drawn. YouGov’s sampling frame consists of members of its U.S.-based online panel, who have agreed to participate in surveys. Panelists are recruited through various channels, including commercial opt-in lists, online advertisements tailored to attract people with diverse interests, and invitations extended to past respondents from prior research initiatives. Each panelist provides background demographic information upon joining, allowing YouGov to build a versatile sampling frame with significant demographic coverage, aligning with the characteristics of the U.S. adult population (@citeYouGovMethodology) (@citeYouGovReport).
 
-## Sample Recruitment
+The sample, or the subset of individuals selected from the sampling frame to participate in the survey, includes 1,604 respondents who meet specific demographic criteria to mirror the target population’s composition. This particular sample size offers a balance between reliability of data and efficiency of resources, as it’s large enough to capture statistically significant findings while remaining feasible for rapid deployment online (@citeYouGovReport).
 
-YouGov’s panelists are recruited through online advertisements, partnerships with various websites, and organic sign-ups. This open online recruitment allows any adult within the United States with internet access to join the panel, promoting inclusivity in terms of access and accessibility (YouGov). Once part of the panel, participants voluntarily complete surveys for points that can be exchanged for rewards, making monetary compensation a moderate incentive but not the sole motivator for participation. This approach is well-suited to engage a broad and diverse sample, although it does introduce limitations by excluding those without internet access.
+## Sample Recruitment and Sampling Approach
 
-Because the recruitment is continuous and participants often stay on the panel long-term, YouGov can maintain and monitor demographic balance, update panelist information over time, and reduce redundancy in questions for returning members. However, relying solely on online recruitment may introduce a bias toward individuals more inclined toward online engagement, who may not fully represent groups with lower internet usage, such as older adults or those from lower-income backgrounds (YouGov).
+Sampling can follow different designs, such as probability and nonprobability methods, each with unique implications. Probability sampling is the approach where each member of the target population has a known, non-zero chance of being selected, making the sample theoretically representative of the population. This method, which is often employed in high-stakes polling (e.g., election forecasting), is seen as the gold standard for ensuring unbiased, representative data (@citeYouGovWebsite).
 
-## Sampling Approach and Trade-offs
+However, YouGov uses a nonprobability sampling method, in which the panelists are drawn from an opt-in online panel rather than randomly from the entire U.S. adult population. Nonprobability sampling doesn’t guarantee that every individual has an equal chance of selection; instead, it focuses on constructing a sample that closely matches the population based on key demographic characteristics through weighting. YouGov’s approach enables it to conduct surveys quickly and cost-effectively while also allowing targeted sampling of specific groups of interest, which can be beneficial for identifying subpopulation insights or trends (@citeYouGovWebsite).
 
-YouGov employs a nonprobability sampling approach, meaning that not every individual in the population has an equal chance of selection. Within its panel, YouGov uses stratified sampling, drawing subsets of respondents based on demographic targets (e.g., age, race, gender, and region) to match the sample as closely as possible to the desired population structure.
+While nonprobability sampling offers these efficiencies, it introduces the risk of selection bias, as the individuals who join an opt-in panel may not fully reflect the population’s diversity in attitudes or behaviors. For example, those who choose to participate might have higher engagement in political matters than the general public. To mitigate these potential biases, YouGov weights the sample on various demographic variables to match national population benchmarks, making the findings more reflective of the broader U.S. adult population (@citeYouGovWebsite).
 
-### Trade-offs of the Nonprobability Approach
-- **Strengths**: Nonprobability sampling allows YouGov to gather data rapidly and cost-effectively. By using stratified sampling and post-survey weighting, the company aims to approximate the representativeness of probability-based samples while maintaining flexibility in addressing specific research goals and client needs (YouGov).
-- **Limitations**: Because nonprobability samples lack random selection, they do not guarantee true representativeness, which can introduce unknown biases. YouGov addresses this partially by applying demographic weights, but nonprobability sampling’s inherent limitations mean results should be interpreted as estimates rather than fully precise reflections of the target population (Huffington Post).
+## Non-Response Handling and Weighting
 
-## Handling Non-Response
+Non-response bias is a concern in all survey methods and arises when certain types of individuals in the target population are less likely to participate, potentially skewing the results (@citeYouGovWebsite) In the Economist/YouGov poll, respondents who are unwilling or unable to participate may differ in meaningful ways from those who do participate, and these differences could influence survey outcomes if left unaddressed. For instance, if younger adults are less likely to respond, the survey could over-represent older adults’ opinions, leading to results that don’t accurately reflect the broader population (@citeYouGovMethodology).
 
-Non-response is a common issue in survey research, particularly with online surveys where participants may decline to participate, partially complete surveys, or provide inconsistent answers. YouGov tackles non-response bias through quality control processes that exclude unreliable responses. These controls involve detecting respondents who complete surveys too quickly, answer inconsistently, or fail attention checks (YouGov).
+To address non-response, YouGov employs weighting to adjust the sample composition. Weighting assigns different statistical weights to respondents based on their demographic characteristics — such as age, gender, race, income, and voting history — to ensure these characteristics align with those of the target population as measured by reliable sources like the U.S. Census. This process gives less frequently represented groups a higher weight in the analysis and more commonly represented groups a lower weight, balancing the sample to mitigate non-response effects. Weighting can’t entirely eliminate the effects of non-response but substantially reduces its potential bias, making the survey findings more credible (@citeYouGovReport).
 
-In addition, YouGov adjusts for non-response by weighting the final sample to reflect the target population's demographic characteristics more accurately. This adjustment helps address imbalances resulting from non-response, enhancing the data’s generalizability. However, non-response bias remains a concern, especially as weighting cannot entirely account for individuals not present in the sample or for differences in survey engagement across demographics (YouGov).
+## Questionnaire Design and Quality Control
 
-## Strengths and Weaknesses of YouGov’s Methodology
+YouGov prioritizes clarity, neutrality, and accessibility in questionnaire design. Clear wording helps prevent misunderstandings, while neutral language avoids leading respondents to particular answers. The survey also incorporates randomization of question and response option orders, a strategy that reduces the likelihood of order bias, where responses may be influenced by the sequence in which options are presented. YouGov’s commitment to neutrality and randomization adds to the reliability and validity of the responses, making the findings more trustworthy @citeYouGovMethodology.
 
-### Strengths
-- **Efficient Data Collection**: YouGov’s nonprobability online sampling allows for efficient, cost-effective data collection, enabling timely survey responses that can address rapidly changing social and political topics.
-- **Targeted Panel Management**: YouGov’s proprietary panel enables consistent, direct contact with respondents, allowing for long-term engagement and improved tracking of demographic and opinion changes without needing repetitive data entry.
-- **Rigorous Quality Controls**: Extensive quality checks, including IP verification, email authentication, and response validity checks, help YouGov maintain high data integrity. Respondents who fail quality checks are excluded, helping to reduce noise from unreliable data.
-- **Adjustments for Representativeness**: While nonprobability sampling has limitations, YouGov partially mitigates these by applying sophisticated weighting based on benchmarks from sources like the U.S. Census. This enhances the sample’s demographic alignment with the general population (YouGov).
+Quality control measures further reinforce the survey’s integrity. YouGov’s approach includes verifying panelists’ identity and monitoring their responses for consistency. For instance, individuals providing contradictory answers or completing the survey unusually quickly are flagged, with their data excluded from the final analysis. This process ensures that only high-quality responses contribute to the survey’s conclusions @citeYouGovWebsite.
 
-### Weaknesses
-- **Nonprobability Sampling Limitations**: The lack of true random sampling introduces potential bias, as certain population segments may be underrepresented. For example, people without internet access or those less inclined toward online engagement are systematically excluded, which could affect representativeness.
-- **Potential Selection Bias**: Although incentives are modest, they may still attract individuals who are already more engaged or motivated to participate in surveys, which could influence results. The weighting procedures help but may not fully eliminate biases if certain groups are consistently underrepresented.
-- **Limitations of Online-Only Surveys**: Although internet penetration in the U.S. is high, reliance on online-only surveys may still leave out individuals less comfortable with or able to access online technology, skewing results slightly.
-- **Questionnaire Design Constraints**: While YouGov’s questionnaire design is generally sound, with randomized question orders and multimedia inclusion for clarity, online surveys can limit response depth compared to in-person or phone surveys. Responses are constrained by pre-set answer options, potentially oversimplifying complex views and reducing respondent nuance (Huffington Post).
+While the survey’s straightforward question format enhances accessibility, it can limit depth in exploring complex topics, as respondents may not have the opportunity to fully express nuanced views. For example, questions about candidate preference capture top-line support but may lack the depth to reveal the underlying motivations or concerns driving these preferences.
+
+## Strengths and Limitations of YouGov’s Methodology
+
+YouGov’s methodology provides a flexible and efficient way to gather public opinion, allowing rapid data collection across a broad demographic range. The use of an opt-in panel enables YouGov to survey specific subgroups effectively and maintain control over respondent quality. By applying weighting to compensate for nonprobability sampling, YouGov achieves a sample composition that closely resembles the U.S. adult population, allowing generalizations about national opinion.
+
+However, the reliance on nonprobability sampling introduces certain limitations. Since the sample is drawn from an opt-in panel, there is an inherent risk of selection bias, which, despite efforts to control for it through weighting, may affect the representativeness of the findings. The use of online-only surveys also limits participation to individuals with internet access, although this exclusion is less impactful in the U.S., where internet penetration is high.
+
+In conclusion, YouGov’s methodology balances efficiency and accuracy well, leveraging demographic weighting and robust quality controls to produce credible insights. While limitations related to nonprobability sampling and selection bias exist, these are mitigated through strategic adjustments, making the poll a reliable source for gauging national opinions.
 
 ## Reflection
 
@@ -542,112 +540,57 @@ However, the onboarding interface in @fig-YouGovInterface has a gamified feel, a
 
 # Methodology and Survey Design for 2024 U.S. Presidential Election Forecast
 
-## Methodology
-This part of the appendix provides a detailed methodology and survey design to forecast the 2024 U.S. presidential election. Our survey focuses on swing states: Arizona, Georgia, Michigan, Nevada, North Carolina, Pennsylvania, and Wisconsin due to the results of other states being certain. The survey targets different age groups using tailored recruitment strategies. Below, we break down the methodology, budget, recruitment strategies, and survey design to ensure representative participation.
+## Overview
+This methodology presents an election forecasting plan with a budget of $100,000 focusing on swing states which are states where election outcomes are uncertain, making them crucial for forecasting the Electoral College result. Drawing on insights from YouGov and  Annual Review of Economics regarding survey methods, we chose an online format to improve accessibility and minimize selection bias, allowing respondents to participate at their convenience. This approach is especially suitable for students and working-age individuals, who may have limited availability during traditional hours. Mobile technology further enhances engagement, reaching populations that are otherwise challenging to access, such as seniors and mobile-first respondents. To maintain engagement and prevent drop-offs, we designed a concise survey with digital incentives to attract a broad participant base across income levels.
+By incorporating techniques from both institutions, our methodology is designed to be cost-effective and demographically balanced, producing reliable predictions for the 2024 U.S. Presidential Election.
 
-### Sampling Approach
-- Total Sample Size: 7,000 respondents (1,000 participants per state).
-- Target Population: Eligible voters from the following swing states: Arizona, Georgia, Michigan, Nevada, North Carolina, Pennsylvania, Wisconsin.
+## Sampling Approach
+This methodology uses a multi-mode sampling approach, integrating both probability and non-probability methods to achieve broad demographic reach and representativeness. This approach enables us to capture an inclusive snapshot of voter preferences in critical electoral regions.
 
-#### Sampling Breakdown by Age Group:
-- 18-24 years: 150 participants per state (total 1,050) – reached through university students.
-- 25-60 years: 700 participants across states (total 4,900) – reached via online ads and survey platforms.
-- 60+ years: 150 participants per state (total 1,050) – reached through phone calls.
-  
-- Stratified Random Sampling:
-  - Stratify by age, gender, race/ethnicity, education, income, and region.
-  - Ensure proportional representation based on **U.S. Census data** to avoid bias.
-  
-- Weighting Strategy:
-  - Apply **post-stratification weighting** to adjust for any sampling imbalance, aligning with national demographics.
+### Target Population
+The target population is eligible voters in the seven swing states: Arizona, Georgia, Michigan, Nevada, North Carolina, Pennsylvania, and Wisconsin. By focusing on these states, the survey aims to forecast potential outcomes in critical areas for the Electoral College.
 
-### Recruitment Plan
+### Sampling Frame and Sample Size
+The sampling frame combines both verified voter lists (probability-based) and opt-in online panels (non-probability) to access a comprehensive range of respondents. Our total sample size is 7,000 respondents (1,000 per state), which supports statistically reliable insights across age groups and geographic regions.
 
-#### 18-24 Years (University Students):
-- University Collaboration: Partner with academic institutions in each swing state to send survey invitations via email on behalf of the project.
-- Rationale: Universities provide direct access to students, improving recruitment efficiency and response rates.
-- Incentive: Each respondent receives a $10 e-gift card for a Walmart or Costco purchase.
+### Sample Recruitment by Age Group
+- 18-24 years: Recruited through university partnerships, with a target of 150 respondents per state (1,050 total).
+- 25-60 years: Recruited via online ads on platforms like Facebook and Prolific, targeting 700 respondents per state (4,900 total).
+- 60+ years: Reached through live phone calls, with 150 respondents per state (1,050 total).
 
-#### 25-60 Years (General Population):
-- Online Ads and Survey Platforms: Use Facebook, Instagram, and platforms like Prolific to recruit participants from swing states.
-- Budget Allocation: Allocate $10,000 for online ads to reach residents aged 25-60.
-- Incentive: Participants receive e-gift cards upon survey completion.
+### Sampling Methods
+Probability Sampling (Phone Interviews): For the 60+ age group, live phone interviews and Interactive Voice Response (IVR) calls are employed. Using verified voter lists reduces bias and increases data accuracy for less digitally active participants.
+Non-Probability Sampling (Online Surveys): For participants aged 18-60, online surveys target mobile-first and younger voters through social media and survey platforms. Although not all respondents have equal selection probability, quota sampling and post-stratification weighting enhance representativeness.
 
-#### 60+ Years (Senior Citizens):
-- Phone Surveys: Conduct live calls to reach seniors, considering that older people are not comfortable using electronic devices. Phone numbers will be sourced from voter registration databases (where legally accessible) or senior community networks.
-- Incentive: Seniors can choose a physical Walmart or Costco gift card, which will be sent by mail.
+### Stratified Sampling and Weighting
+Stratified Sampling: The sample is stratified by demographic characteristics such as age, gender, race/ethnicity, education, and income, to improve representativeness.
+Post-Stratification Weighting: To correct for any sample imbalances, post-stratification weighting adjusts the sample to match demographic proportions from U.S. Census data, ensuring balanced representation across demographic categories.
 
-- Recruitment Channels:
-  - Complement with **social media ads** on Facebook, Instagram, and LinkedIn to reach underrepresented groups.
-  - **Incentives**: Offer **$10 gift cards** to increase participation and engagement.
+## Recruitment Strategy
+Using verified voter lists and opt-in online panels as the sampling frame, this survey focuses on likely voters in the 2024 election. Likely voters are identified based on past voting behavior and registration status. To align with demographic targets, quota sampling is employed. Quota sampling allows us to proportionally represent demographic groups by age, gender, race, and education, ensuring the sample reflects the U.S. electorate's profile.
+Our primary focus is on controlling age distribution. As each age group reaches its target sample size, we close the survey for that group to prevent over-representation. This method ensures that all age demographics are adequately represented without skewing results due to excess responses from any particular age group.
+Incentives: To encourage participation, especially for online surveys targeting younger and working-age demographics, we offer a $10 digital gift card to each respondent upon survey completion. This incentive helps attract a more diverse group, increasing the likelihood of representative participation across income levels and ensuring a higher response rate.
 
-### Trade-off
+## Data Validation
+Given the hybrid data collection format, we use several validation techniques to maintain data quality:
+- Duplicate detection (based on IP addresses and phone numbers) ensures unique responses.
+- Attention checks help identify respondents who may not be fully engaged.
+- Conflict detection: Responses showing contradictions (e.g., conflicting demographic details or inconsistencies in voting behavior) are flagged. If respondents provide conflicting answers, their data is excluded, as this may indicate they completed the survey solely for incentives without thoughtful engagement.
+Both duplicate and inattentive responses introduce bias and are therefore removed from the data set. This filtering process improves data accuracy and reliability.
+To further align the sample with national demographics, post-stratification weighting is applied. Weights are calculated based on key variables such as race, gender, and education, following Census benchmarks. This weighting corrects for any under- or over-represented groups, resulting in data that is more reflective of the broader electorate.
 
-#### Data Representativeness vs. Control over Data Collection
-- Issue: Although age quotas ensure participation from different age groups (18-24, 25-60, 60+), it is not feasible to set strict limits for race and income. Without perfectly matched samples for race and income, bias may arise in the survey results. 
+## Trade-Offs
+Data Diversity vs. Recruitment Control: Although quota sampling on age helps ensure demographic diversity, strict quotas for every characteristic (such as race and income) are difficult to impose. This may lead to over- or under-representation of certain groups. Solution: Post-stratification weighting is used to adjust the sample based on Census proportions, improving demographic balance.
+Accurate Senior Outreach vs. Higher Costs: Phone interviews are essential to reach senior citizens but come at a higher cost. Additionally, some seniors may remain unreachable, potentially skewing representation. Solution: Allocate phone interview resources to maximize outreach while acknowledging potential non-response among unreachable seniors.
+Incentives vs. Economic Bias: Offering $10 digital incentives may disproportionately attract lower-income individuals, possibly skewing the sample toward lower socioeconomic backgrounds. Solution: Income-based weighting in post-stratification helps correct for any economic biases that might affect the sample’s representativeness.
 
-- Solution: 
-  - Weighting Strategy: Calculate population proportions for race and income within each state using Census data. Assign weights to groups based on their representation to mitigate bias.
+## Conclusion
+By integrating YouGov’s multi-modal sampling with the Economist’s robust weighting approach, this methodology effectively captures a broad cross-section of voter demographics. The use of both probability-based and non-probability-based sampling methods, along with rigorous data validation, ensures a reliable forecast for the 2024 U.S. Presidential Election.
 
-#### Efficient Recruitment vs. Potential Selection Bias
-- Issue: Limiting the 18-24 age group to university students may introduce selection bias. University students often differ from their non-student peers in socioeconomic background and possibly political perspectives.
-- Impact: This selection bias may affect the generalizability of findings, as university students’ perspectives might differ from all young adults. 
+## Survey Link
+[https://forms.gle/2MGYeZavDsCNuWZ1A](https://forms.gle/2MGYeZavDsCNuWZ1A)
 
-#### Effective Senior Outreach vs. Higher Costs and Response Bias
-- Issue: Using live phone operators to reach seniors increases costs, and some seniors may remain unreachable by phone.
-- Impact: Higher costs may reduce resources for other age groups. Response bias may arise if unreachable seniors have different views, affecting the survey's representativeness.
-
-#### Incentivizing Participation vs. Economic Bias in Sample
-- Issue: Offering $10 gift cards as an incentive could attract participants more likely to need the incentive, potentially introducing economic bias.
-- Impact: Overrepresentation of lower-income participants could skew results, affecting insights if income level correlates with political perspectives.
-
-### Survey Implementation and Design
-In designing this survey, I referenced insights from the article on survey methods from @AnnualReviewofEconomics, particularly on the advantages of online surveys over in-person, phone, or mail surveys. The article highlighted that online surveys provide flexibility, allowing respondents to complete them at their convenience, which minimizes selection bias related to work schedules or availability. This flexibility is especially beneficial for students and working-age individuals, who may find it challenging to respond during traditional hours. The article also emphasized how mobile technology can increase participation by reaching populations that are otherwise hard to engage, such as younger respondents, frequent movers, or those in remote areas.
-In line with these insights, I designed this survey with an online format for younger and working-age participants, maximizing accessibility and reducing drop-out rates. Additionally, I applied the article’s suggestion of keeping surveys concise to prevent fatigue and disengagement, which helps maintain completion rates and improve data quality. The use of digital incentives, as noted in the article, also broadens the appeal and ensures we reach a diverse participant base across income levels, providing flexibility in rewards to cater to different motivations.
-This approach helped shape a balanced methodology that optimizes participation across demographic groups and aligns with best practices in survey design.
-
-- Survey Platform: Google Forms  
-  - **Link**: [https://forms.gle/2MGYeZavDsCNuWZ1A](https://forms.gle/2MGYeZavDsCNuWZ1A)
-  - Accessible to respondents via **email, social media, and direct recruitment channels**.
-
-- Survey Structure:
-  1. Demographics Section: Age, gender, race/ethnicity, income, education, and state of residence.
-  2. Voting Preferences Section: Candidate choice, likelihood of voting, and party affiliation.
-  3. Key Issues Section: Identify priority issues (e.g., economy, healthcare, immigration).
-  4. Thank You Message:  
-     - *“Thank you for completing the survey! Your input is greatly appreciated and will help provide insights into the upcoming 2024 election.”*
-
-### Data Validation
-
-- Techniques for Data Quality:
-  1. Screening Questions: Confirm eligibility (e.g., 18+ years old, registered voter status).
-  2. Attention Checks: Include a question like *“Please select ‘Agree’ for this item”* to verify respondents are attentive.
-  3. IP Geolocation: Validate state residency based on reported location.
-  4. Duplicate Detection: Identify and remove duplicate responses.
-
-### Poll Aggregation and Reporting
-
-- Poll Aggregation:  
-  - Use **weighted averages** to account for differences in sample size and demographics.
-
-- Margin of Error**:  
-  - National Margin of Error: ±1% at the 95% confidence level.  
-  - State-Level Margins: ±5-10% depending on the sample size for each state.
-
-### Budget Allocation
-
-| **Expense**                                        | **Estimated Cost**  |
-|---------------------------------------------------|---------------------|
-| Participant Incentives                             | $70,000            |
-| Online Ads and Panel Provider Fees                 | $10,000            |
-| Phone Survey Salaries                              | $8,000             |
-| Google Forms (Platform)                            | Free               |
-| Data Validation & Analysis                         | $10,000            |
-| Miscellaneous Expenses                             | $2,000             |
-| **Total**                                          | **$100,000**       |
-
-## Survey Questions
-
+## Copy of Survey
 Below is the full content of the survey to be implemented using Google Forms:
 
 1. What is your age?  
@@ -719,8 +662,7 @@ Below is the full content of the survey to be implemented using Google Forms:
 
 Thank you for completing the survey! Your input is greatly appreciated and will help provide insights into the upcoming 2024 election.
 
-## Google Forms Link
-[https://forms.gle/2MGYeZavDsCNuWZ1A](https://forms.gle/2MGYeZavDsCNuWZ1A)
+
 
 
 # References
