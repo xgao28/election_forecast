@@ -214,25 +214,33 @@ kable(final_results_baseline, row.names = FALSE)
 
 
 
-## 1. Baseline Model (Winner-Take-All National Model)
-The baseline model aggregates national polling data to predict a winner, with all electoral votes awarded to the candidate with the higher national polling percentage.
-   Let:
-   - $P_H(t)$: Harris’s national polling percentage at $t$ days towards the election.
-   - $P_T(t)$: Trump’s national polling percentage at $t$ days towards the election.
+### Baseline Model (Winner-Take-All National Model)  
+In our baseline model, we predict the election winner by using national polling data and assigning all electoral votes to the candidate with the higher projected percentage on election day. This "winner-take-all" approach assumes that the candidate leading in national polling would theoretically secure all electoral votes.
 
-   We model each candidate’s polling as:
-   $$
-   P_H(t) = \alpha_H + \beta_H t
-   $$
-   $$
-   P_T(t) = \alpha_T + \beta_T t
-   $$
+To build this model, we define each candidate’s polling trend over time using simple linear regression:
 
-   where $\alpha_H$ and $\alpha_T$ are the intercepts (predicted percentages on election day, $t = 0$), and $\beta_H$ and $\beta_T$ are the slopes.
+- Let $P_H(t)$ represent Kamala Harris’s national polling percentage at $t$ days before the election, and $P_T(t)$ represent Donald Trump’s percentage at the same time.
 
-Then, our aim is the intercept, $P_H(0) = \alpha_H, \quad P_T(0) = \alpha_T$.
+We express each candidate's polling percentage as a linear function of time:
 
-We then draw the prediction result as follows: Harris wins (all electoral votes) if $\alpha_H > \alpha_T$, and Trump wins (all electoral votes) otherwise.
+$$
+P_H(t) = \alpha_H + \beta_H t
+$$
+
+$$
+P_T(t) = \alpha_T + \beta_T t
+$$
+
+where:
+- $\alpha_H$ and $\alpha_T$ are the intercepts, representing Harris’s and Trump’s predicted polling percentages on election day (when $t = 0$).
+- $\beta_H$ and $\beta_T$ are the slopes, capturing the rate of change in each candidate’s polling percentage as election day approaches.
+
+Our primary interest is in estimating these intercepts, $\alpha_H$ and $\alpha_T$, since they give the predicted polling percentages for each candidate on election day. To predict the winner, we compare these intercepts:
+
+- If $\alpha_H > \alpha_T$, we predict that Kamala Harris wins the election and receives all electoral votes.
+- Conversely, if $\alpha_T > \alpha_H$, Donald Trump is predicted to win all electoral votes.
+
+This model simplifies the electoral system by assuming that the national polling leader would win the overall election, without accounting for individual state results.
 
 ```{r our model}
 #| echo: false
@@ -310,29 +318,37 @@ kable(final_results, row.names = FALSE)
 
 ```
 
-## 2. Swing State-Based Model
-This model forecasts electoral outcomes by projecting state-level polling results for each candidate, combining swing state outcomes with votes from solid states.
+### 2. Swing State-Based Model  
+This model forecasts electoral outcomes by projecting each candidate’s polling results in individual swing states, then combining those results with electoral votes from states that are already solidly in favor of one candidate or the other.
 
 1. **Swing State Polling Projections**  
-   For each swing state $s \in S$, let:
-   - $P_{H_s}(t)$: Harris’s polling percentage in state $s$ at $t$ days before the election.
-   - $P_{T_s}(t)$: Trump’s polling percentage in state $s$ at $t$ days before the election.
+   To predict each candidate’s chances in swing states, we model their polling trends over time for each swing state $s \in S$. Let:
+   
+   - $P_{H_s}(t)$ be Kamala Harris’s polling percentage in state $s$ at $t$ days before the election.
+   - $P_{T_s}(t)$ be Donald Trump’s polling percentage in state $s$ at $t$ days before the election.
 
-   We model each swing state polling as:
+   We express each candidate's polling percentage in each swing state as a linear function of time:
+
    $$
    P_{H_s}(t) = \alpha_{H_s} + \beta_{H_s} t
    $$
+
    $$
    P_{T_s}(t) = \alpha_{T_s} + \beta_{T_s} t
    $$
 
-   where $\alpha_{H_s}$ and $\alpha_{T_s}$ are intercepts (predicted percentages at $t = 0$) and $\beta_{H_s}$, $\beta_{T_s}$ are slopes.
+   where:
+   - $\alpha_{H_s}$ and $\alpha_{T_s}$ represent the intercepts, or the predicted polling percentages for Harris and Trump on election day (when $t = 0$).
+   - $\beta_{H_s}$ and $\beta_{T_s}$ are the slopes, indicating how each candidate’s polling percentage changes over time in state $s$.
 
-Then, we obtain the predicted polling percentage for Harris in state $s:P_{H_s}(0) = \alpha_{H_s},$ and that for Trump in state $s: \quad P_{T_s}(0) = \alpha_{T_s}$. The candidate mentioned above wins in state s if their predicted polling percentage is higher than the other candidate.
+   For each swing state, we focus on the predicted polling percentages on election day, $P_{H_s}(0) = \alpha_{H_s}$ for Harris and $P_{T_s}(0) = \alpha_{T_s}$ for Trump. We predict the winner of state $s$ based on which candidate has the higher projected percentage: if $\alpha_{H_s} > \alpha_{T_s}$, Harris wins the state; otherwise, Trump does.
 
 2. **Electoral Vote Aggregation**  
-  Based on the electoral vote policy in swing states, the winner of the state obtains all the vote from that state. Obtaining the predicted winner of the swing states, we calculate their total electoral votes as two components: their votes from the solid states as mentioned by Electoral Ventures LLC (2024), and the votes from the swing states that would advocate the candidate based on the predictions. 
-  Eventually, the candidate surpassing 270 electoral votes in our prediction wins.
+   Once we have determined the predicted winner in each swing state, we calculate the total electoral votes for each candidate by combining:
+   - Electoral votes from solid states, as defined by @electoral_ventures_2024.
+   - Electoral votes from the swing states predicted to support each candidate.
+
+   In this approach, the candidate who surpasses the 270 electoral votes threshold is predicted to win the election. This model considers the variability of swing states, differentiating it from the winner-take-all national model by capturing the dynamics of individual state races.
 
 ## Model justification
 
@@ -666,5 +682,3 @@ Thank you for completing the survey! Your input is greatly appreciated and will 
 
 
 # References
-
-Electoral Ventures LLC, (2024). 270toWin - 2024 Presidential Election Interactive Map. 270toWin.com. https://www.270towin.com/
