@@ -412,7 +412,20 @@ intercept_wide <- intercept_wide %>%
   mutate(Difference = `Kamala Harris` - `Donald Trump`) %>% 
   rename(State = state)
 
-intercept_wide$`Votes` <- c(6, 11, 10, 15, 19, 16, 16)
+# Used dictionary-like vector to ensure the correct correspondence
+state_votes <- c(
+  Nevada = 6,
+  Arizona = 11,
+  Wisconsin = 10,
+  Michigan = 15,
+  Pennsylvania = 19,
+  `North Carolina` = 16,
+  Georgia = 16
+)
+
+# Use the named vector to add the votes to intercept_wide
+intercept_wide <- intercept_wide %>%
+  mutate(Votes = state_votes[State])
 
 # View the results with differences
 kable(intercept_wide)
