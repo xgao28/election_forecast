@@ -1,6 +1,6 @@
 ---
 title: "Forecasting the 2024 U.S. Presidential Election: A Poll-Based Approach"
-subtitle: "Kamala Harris Poised for Victory"
+subtitle: "Kamala Harris Projected to Win the Electoral College with 292 Votes to Donald Trump’s 246"
 author: 
   - Xinxiang Gao
   - Ariel Xing
@@ -467,7 +467,7 @@ kable(total_votes, caption = "Predicted Electoral Votes for Each Candidate")
 
 ```
 
-![Result](../other/photos/Predicted_Result.png){#fig-result}
+![Projected Electoral College Results for the 2024 U.S. Presidential Election, with Kamala Harris Expected to Secure 292 Electoral Votes Against Donald Trump’s 246](../other/photos/Predicted_Result.png){#fig-result}
 
 # Discussion{#sec-disc}
 
@@ -555,23 +555,23 @@ In conclusion, YouGov’s methodology balances efficiency and accuracy well, lev
 
 We created an account on YouGov to gain real experience with the platform, as illustrated in @fig-YouGovWelcomePage and here is my reflection on the onboarding process and user experience.
 
-![YouGov Welcome Page](../other/photos/YouGov_Welcome_Page.png){#fig-YouGovWelcomePage width=60%}
+![Initial welcome screen during YouGov onboarding, confirming country of residence and introducing users to the platform's privacy policies and terms](../other/photos/YouGov_Welcome_Page.png){#fig-YouGovWelcomePage width=60%}
 
 The YouGov survey onboarding process is designed to be clear and straightforward, making it easy for new users to sign up and begin participating. The questions asked during onboarding are simple and direct, covering basic demographic details without overwhelming the participant. The first question of the first survey we took at YouGov is shown at @fig-YouGovSurvey. This streamlined approach likely helps increase engagement and reduces drop-off rates, ensuring that users can quickly understand what is required of them. The layout and visuals are accessible, contributing to a positive first impression and making it more likely that new panelists will continue engaging with future surveys.
 
-![YouGov Survey](../other/photos/YouGov_Survey.png){#fig-YouGovSurvey width=60%}
+![Example of a YouGov survey question, designed to gather demographic information and establish privacy preferences, fostering user engagement through a clear and straightforward layout](../other/photos/YouGov_Survey.png){#fig-YouGovSurvey width=60%}
 
 To enhance data integrity, YouGov includes verification steps such as confirming users’ email addresses through a code. This extra step not only ensures that participants are real and unique individuals but also helps prevent fraudulent or duplicate accounts, as shown in @fig-YouGovEmailVerification, which can otherwise skew survey results. By verifying email addresses, YouGov can maintain a higher quality of data and build a more reliable panel, knowing that each participant is committed enough to complete these security measures. This verification process is a straightforward yet effective method for improving data quality from the outset.
 
-![YouGov Email Verification](../other/photos/YouGov_Email_Verification.png){#fig-YouGovEmailVerification width=60%}
+![Email verification screen to confirm user identity, enhancing data integrity by preventing duplicate or fraudulent accounts](../other/photos/YouGov_Email_Verification.png){#fig-YouGovEmailVerification width=60%}
 
 Data privacy is also well-considered in YouGov’s onboarding, with clear options allowing users to control how their information is shared. For instance, participants can opt in or out of having their responses shared in identifiable formats with trusted third parties. @fig-YouGovDataPrivacy includes an example of how YouGov is letting users to control their information privacy. This transparency around data usage builds trust, showing participants that their privacy is valued and that they have agency over their data. The option to decide on data sharing likely encourages long-term participation, as users are reassured that their information will be handled responsibly.
 
-![YouGov Data Privacy](../other/photos/YouGov_Data_Privacy.png){#fig-YouGovDataPrivacy width=60%}
+![Data privacy options allowing users to control the sharing of their information with third parties, reflecting YouGov’s commitment to transparency and user autonomy](../other/photos/YouGov_Data_Privacy.png){#fig-YouGovDataPrivacy width=60%}
 
 However, the onboarding interface in @fig-YouGovInterface has a gamified feel, awarding points for each step completed. This reward system, while motivating, could encourage participants to treat the surveys more like a task for monetary gain than an opportunity to provide genuine responses. The point-based incentive structure may attract users who are primarily interested in earning rewards, which risks impacting data quality if participants prioritize speed over thoughtful answers. This setup introduces the possibility that some users are engaging more for the rewards than for contributing to research, which could affect the reliability of the responses YouGov collects.
 
-![YouGov Interface](../other/photos/YouGov_Interface.png){#fig-YouGovInterface width=60%}
+![Overview of YouGov’s gamified rewards system, where participants accumulate points redeemable for gift cards, potentially motivating user engagement with surveys](../other/photos/YouGov_Interface.png){#fig-YouGovInterface width=60%}
 
 
 
