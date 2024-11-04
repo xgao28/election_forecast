@@ -341,7 +341,7 @@ kable(final_results, row.names = FALSE)
 
 ```
 
-## Swing State-Based Model  
+## Primary Model (Swing State-Based Model)                                                   
 This model forecasts electoral outcomes by projecting each candidate’s polling results in individual swing states, then combining those results with electoral votes from states that are already solidly in favor of one candidate or the other.
 
 1. **Swing State Polling Projections**  
@@ -648,79 +648,182 @@ By integrating YouGov’s multi-modal sampling with the Economist’s robust wei
 [https://forms.gle/2MGYeZavDsCNuWZ1A](https://forms.gle/2MGYeZavDsCNuWZ1A)
 
 ## Copy of Survey
-Below is the full content of the survey to be implemented using Google Forms:
+2024 U.S. Presidential Election Survey
 
-1. What is your age?  
+Thank you for participating in this survey about the 2024 U.S. presidential election.
+
+Please note that:
+- All responses will remain strictly confidential and will only be used for research purposes.
+- Your participation is voluntary, and you may withdraw from the survey at any time.
+- The survey contains 21 questions and should take about 10 minutes to complete.
+
+We kindly ask that you answer each question honestly and to the best of your knowledge.
+
+For questions or concerns, please contact:
+**Ariel Xing, Research Coordinator**  
+Email: [ariel.xing@mail.utoronto.ca](mailto:ariel.xing@mail.utoronto.ca)
+
+---
+
+## Section 1: Eligibility Screening
+
+1. **Are you a U.S. citizen?**  
+   - Yes  
+   - No  
+
+2. **Will you be 18 or older by November 5, 2024 (Election Day)?**  
+   - Yes  
+   - No  
+
+3. **Are you registered to vote in the United States?**  
+   - Yes  
+   - No  
+   - Plan to register before the election  
+   - Not sure  
+
+4. **Have you ever been convicted of a crime that affects your voting eligibility?**  
+   - No  
+   - Yes, but my voting rights have been restored  
+   - Yes, and my voting rights have not been restored yet  
+   - Not Sure  
+   - Prefer not to say  
+
+5. **Which state do you currently reside in?**  
+   - Arizona  
+   - Georgia  
+   - Nevada  
+   - North Carolina  
+   - Michigan  
+   - Wisconsin  
+   - Pennsylvania  
+   - Other: [Short text answer]
+
+---
+
+## Section 2: Demographic Information
+
+**Note:** Your responses in this survey will be treated with the highest level of confidentiality and will only be used for research purposes. No identifying information will be shared outside of the research team, ensuring your privacy is fully protected.
+
+6. **What is your age?**  
    - 18-24  
    - 25-39  
    - 40-60  
-   - 60+
+   - 60+  
 
-2. What is your gender?  
+7. **What is your gender?**  
    - Male  
    - Female  
-   - Other: ___
+   - Other: [Short text answer]
 
-3. What is your race/ethnicity?  
+8. **What is your race/ethnicity?**  
    - White  
    - Black  
    - Hispanic or Latino  
    - Asian  
    - Indigenous  
-   - Other: ___
+   - Other: [Short text answer]
 
-4. What is your highest level of education?  
+9. **What is your highest level of education?**  
    - Less than high school  
    - High school diploma  
    - Some college  
    - Bachelor’s degree  
    - Graduate degree or higher  
 
-5. What is your annual household income?  
-   - Less than $25,000  
-   - $25,000 - $49,999  
-   - $50,000 - $99,999  
-   - $100,000 or more  
+10. **What is your annual household income?**  
+    - Less than $25,000  
+    - $25,000 - $49,999  
+    - $50,000 - $99,999  
+    - $100,000 or more  
 
-6. Which state do you currently reside in?  
+---
 
-7. Are you a registered voter?  
-   - Yes  
-   - No  
-   - Not sure  
+## Section 3: Political Views and Voting Intentions
 
-8. How likely are you to vote in the 2024 presidential election?  
-   - 1 (Definitely will not vote)  
-   - 2  
-   - 3  
-   - 4  
-   - 5 (Definitely will vote)
+11. **How likely are you to vote in the 2024 presidential election?**  
+    - Definitely will not vote  
+    - 1  
+    - 2  
+    - 3  
+    - 4  
+    - Definitely will vote  
 
-9. If the 2024 election were held today, who would you vote for?  
-   - Kamala Harris (Democrat)  
-   - Donald Trump (Republican)  
-   - Undecided  
-   - Other: ___  
+12. **Generally speaking, how do you identify politically?**  
+    - Democrat  
+    - Republican  
+    - Independent  
+    - Other: [Short text answer]
 
-10. What is the most important issue for you in this election?  
-   - The economy  
-   - Healthcare  
-   - Immigration  
-   - Climate change  
-   - Social Security and Medicare  
-   - Foreign policy  
+13. **How open are you to changing your political views if presented with new information or perspectives?**  
+    - Very open  
+    - 1  
+    - 2  
+    - 3  
+    - 4  
+    - Not at all open  
 
-11. In your opinion, how will the majority in your state vote in 2024?  
-   - Democrat  
-   - Republican  
-   - Too close to predict  
+14. **What is your opinion on the effectiveness of the current U.S. government administration?**  
+    - Very effective  
+    - Somewhat effective  
+    - Neutral  
+    - Somewhat ineffective  
+    - Very ineffective  
+    - Prefer not to say  
 
-12. Do you have any additional comments or suggestions?  
+15. **If the 2024 election were held today, who would you vote for?**  
+    - Kamala Harris (Democrat)  
+    - Donald Trump (Republican)  
+    - Undecided  
+    - Other: [Short text answer]
 
-Thank you for completing the survey! Your input is greatly appreciated and will help provide insights into the upcoming 2024 election.
+16. **What is the most important issue for you in this election?**  
+    - The economy  
+    - Healthcare  
+    - Immigration  
+    - Climate change  
+    - Social Security and Medicare  
+    - Foreign policy  
 
-Here’s the revised acknowledgments section using "we" and incorporating `@citeR` for R:
+17. **In your opinion, how will the majority in your state vote in 2024?**  
+    - Democrat  
+    - Republican  
+    - Too close to predict  
 
+18. **Have you previously voted in a U.S. Presidential election?**  
+    - Yes  
+    - No, because this is the first year I am eligible to vote  
+    - No, I chose not to vote in the past  
+    - Prefer not to say  
+
+---
+
+## Section 4: Information Sources and Engagement
+
+19. **How closely have you been following news about the 2024 Presidential election?**  
+    - Very closely  
+    - Somewhat closely  
+    - Not too closely  
+    - Not at all  
+
+---
+
+## Section 5: Verification and Consent
+
+20. **To help us verify that this survey is being completed by a real person, please select the largest number from the following choices:**  
+    - 4  
+    - 10  
+    - 7  
+    - 2  
+
+21. **Do you agree to participate in this survey with the understanding that your involvement is entirely voluntary, that you may choose to stop at any time, and that all of your responses will be kept confidential and used solely for research purposes?**  
+    - Yes, I understand that my participation is voluntary, that I can withdraw at any time, and that my responses will remain confidential and used only for research.  
+    - No, I do not agree to these terms.  
+
+---
+
+**Thank You Message**
+
+Thank you for taking the time to complete this survey! We are grateful for your willingness to share your thoughts, and your input will play an important role in shaping a clearer picture of voter opinions and priorities. Your response will be kept confidential. If you have any further questions or would like to stay updated on the findings from this survey, please feel free to reach out to us.
 
 
 # Acknowledgements{#sec-ack}
