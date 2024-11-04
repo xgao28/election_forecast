@@ -665,7 +665,7 @@ Email: [ariel.xing@mail.utoronto.ca](mailto:ariel.xing@mail.utoronto.ca)
 
 ---
 
-## Section 1: Eligibility Screening
+**Section 1: Eligibility Screening**
 
 1. **Are you a U.S. citizen?**  
    - Yes  
@@ -700,7 +700,7 @@ Email: [ariel.xing@mail.utoronto.ca](mailto:ariel.xing@mail.utoronto.ca)
 
 ---
 
-## Section 2: Demographic Information
+**Section 2: Demographic Information**
 
 **Note:** Your responses in this survey will be treated with the highest level of confidentiality and will only be used for research purposes. No identifying information will be shared outside of the research team, ensuring your privacy is fully protected.
 
@@ -738,7 +738,7 @@ Email: [ariel.xing@mail.utoronto.ca](mailto:ariel.xing@mail.utoronto.ca)
 
 ---
 
-## Section 3: Political Views and Voting Intentions
+**Section 3: Political Views and Voting Intentions**
 
 11. **How likely are you to vote in the 2024 presidential election?**  
     - Definitely will not vote  
@@ -797,7 +797,7 @@ Email: [ariel.xing@mail.utoronto.ca](mailto:ariel.xing@mail.utoronto.ca)
 
 ---
 
-## Section 4: Information Sources and Engagement
+**Section 4: Information Sources and Engagement**
 
 19. **How closely have you been following news about the 2024 Presidential election?**  
     - Very closely  
@@ -807,7 +807,7 @@ Email: [ariel.xing@mail.utoronto.ca](mailto:ariel.xing@mail.utoronto.ca)
 
 ---
 
-## Section 5: Verification and Consent
+**Section 5: Verification and Consent**
 
 20. **To help us verify that this survey is being completed by a real person, please select the largest number from the following choices:**  
     - 4  
