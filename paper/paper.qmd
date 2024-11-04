@@ -44,7 +44,7 @@ Our model projects that Vice President Harris will secure 48.19% of the popular 
 
 Predicting the next U.S. president holds significant implications for the nation’s future and its role on the global stage. The elected leader will influence domestic policy on economic growth, healthcare, and social issues, while also shaping international relations, defense strategies, and trade policies. In an era of geopolitical uncertainty, including conflicts and economic fluctuations, understanding potential election outcomes can help inform the public, policymakers, and global leaders, providing a foundation for navigating the challenges ahead.
 
-The structure of this paper is as follows: @sec-data provides an overview of the dataset, detailing the polling data sources, variables, and preprocessing steps. @sec-model outlines the modeling approach, presenting the rationale behind the Baseline and Primary Models and discussing their respective contributions to the analysis. @sec-results presents the results, including national and state-level predictions, followed by @sec-disc, which explores the implications of these findings, discusses limitations, and suggests future research directions. The three appendices provide a detailed exploration of key aspects relevant to the 2024 U.S. Presidential Election. @sec-swingsolid explains the distinction between swing states and solid states, highlighting their importance in election outcomes. @sec-meth and @sec-survey delve into the methodology and design of the Economist/YouGov poll and an election forecasting survey, outlining sampling methods, data validation processes, and strategic considerations for accurate and reliable polling results.
+The structure of this paper is as follows: @sec-data provides an overview of the dataset, detailing the polling data sources, variables, and preprocessing steps. @sec-model outlines the modeling approach, presenting the rationale behind the Baseline and Primary Models and discussing their respective contributions to the analysis. @sec-results presents the results, including national and state-level predictions, followed by @sec-disc, which explores the implications of these findings, discusses limitations, and suggests future research directions. The three appendices provide a detailed exploration of key aspects relevant to the 2024 U.S. Presidential Election. @sec-swingsolid explains the distinction between swing states and solid states, highlighting their importance in election outcomes. @sec-meth and @sec-survey delve into the methodology and design of the Economist/YouGov poll and an election forecasting survey, outlining sampling methods, data validation processes, and strategic considerations for accurate and reliable polling results. @sec-ack acknowledges the invaluable contributions of various R packages and their developers, which enabled efficient data manipulation, visualization, and analysis, ensuring the clarity, reliability, and integrity of the research.
 
 
 ```{r}
@@ -93,6 +93,8 @@ To enhance interpretability and prediction accuracy, we adjusted the dataset by 
 #| warning: false
 #| message: false
 #| echo: false
+#| label: fig-mtl
+#| fig-cap: Pair Plot of Numeric Predictors for Poll Quality Metrics
 numeric_data <- data %>% 
   select(where(is.numeric)) %>% 
   select(numeric_grade, pollscore, transparency_score) %>% 
@@ -107,7 +109,14 @@ ggpairs(numeric_data) +
 ```
 While selecting the predictors for the model, multicollinearity was a key concern. Multicollinearity occurs when two or more predictors are highly correlated, which can inflate the variance of the coefficient estimates and make the model less reliable. In our pair plot analysis, we observed a high correlation between "numeric_grade" and "pollscore," suggesting that they measure similar aspects of polling quality.
 
+### Swing State Summary Statistics
 ```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| label: tbl-sum
+#| tbl-cap: Summary Statistics of Poll Quality Metrics Across Key Swing States
+
 data_swing <- data %>% filter(state %in% c("Nevada", "Arizona", "Wisconsin", "Michigan", "Pennsylvania", "North Carolina", "Georgia")) 
 
 data_swing %>%
@@ -119,23 +128,32 @@ data_swing %>%
             `mean sample size` = round(mean(sample_size, na.rm = TRUE))) %>% 
   kable()
 ```
+@tbl-sum provides summary statistics for seven key swing states, focusing on mean values of poll-related metrics, including "pollscore," "numeric_grade," "transparency_score," and "sample_size." These averages offer a snapshot of polling data characteristics in each state, emphasizing differences in sample quality and transparency. Understanding these state-level nuances aids in refining state-specific projections in our electoral model.
 
+### Distribution of Sample Sizes
 ```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| label: fig-sam
+#| fig-cap: Histogram of Poll Sample Sizes Below 10,000 Respondents
 data %>% 
   filter(sample_size < 10000) %>% 
   ggplot(aes(x = sample_size)) +
   geom_histogram(bins = 50, fill = "steelblue", color = "black")
 ```
-
+@fig-sam displays the distribution of poll sample sizes for values below 10,000. By illustrating the frequency of various sample sizes, this plot highlights the typical range of sample sizes in our dataset, with a majority clustering under 2,000. This visualization informs the model's sensitivity to sample size variability, which can impact the reliability of poll predictions.
 ```{r}
+#| warning: false
+#| message: false
+#| include: false
 data %>% 
   filter(sample_size >= 10000) %>% 
   arrange(sample_size)
 ```
 
-
-To understand the general trends in the data, we conducted exploratory data analysis using summary statistics and visualizations. Figure 1 (below) illustrates the polling percentages for each candidate over time, allowing us to observe fluctuations in support as the election day draws near. 
-
+### Polling Percentage Over Time by Candidate
+@fig-pct illustrates polling percentages for Kamala Harris and Donald Trump over time, with data points spanning from early 2024 to the election date. Smoothed trend lines capture fluctuations in public support, providing a clear visual of each candidate's trajectory as election day nears. Notable shifts in polling percentage offer insights into campaign impacts and shifting voter sentiment.
 ```{r}
 #| warning: false
 #| message: false
@@ -703,7 +721,7 @@ Here’s the revised acknowledgments section using "we" and incorporating `@cite
 
 
 
-# Acknowledgements
+# Acknowledgements{#sec-ack}
 
 We would like to express our gratitude to the developers and contributors of the R programming language by @citeR and its ecosystem of packages, which have been invaluable in conducting this research. The **tidyverse** collection by @tidyverse, particularly its extensive functionality for data manipulation and visualization, has greatly enhanced the clarity and effectiveness of our analysis, and **arrow** package by @arrow enables us to work with parquet files.
 
