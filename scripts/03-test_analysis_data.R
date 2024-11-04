@@ -8,10 +8,10 @@
 #### Workspace setup ####
 library(tidyverse)
 library(validate)
+library(arrow)
 
 # Load data
-# data <- read_csv("data/00-simulated_data/simulated_polls.csv")
-data <- read_csv("data/02-analysis_data/cleaned_president_polls.csv")
+data <- read_parquet("data/02-analysis_data/cleaned_president_polls.parquet")
 
 # Define validation rules
 rules <- validator(

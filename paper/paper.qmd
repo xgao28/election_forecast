@@ -29,6 +29,7 @@ library(broom)
 library(styler)
 library(lubridate)
 library(validate)
+library(arrow)
 ```
 
 
@@ -51,7 +52,7 @@ The structure of this paper is as follows: @sec-data provides an overview of the
 #| message: false
 #| warning: false
 #| include: false
-data <- read.csv("../data/02-analysis_data/cleaned_president_polls.csv")
+data <- read_parquet("../data/02-analysis_data/cleaned_president_polls.parquet")
 ```
 
 
@@ -704,7 +705,7 @@ Here’s the revised acknowledgments section using "we" and incorporating `@cite
 
 # Acknowledgements
 
-We would like to express our gratitude to the developers and contributors of the R programming language by @citeR and its ecosystem of packages, which have been invaluable in conducting this research. The **tidyverse** collection by @tidyverse, particularly its extensive functionality for data manipulation and visualization, has greatly enhanced the clarity and effectiveness of our analysis.
+We would like to express our gratitude to the developers and contributors of the R programming language by @citeR and its ecosystem of packages, which have been invaluable in conducting this research. The **tidyverse** collection by @tidyverse, particularly its extensive functionality for data manipulation and visualization, has greatly enhanced the clarity and effectiveness of our analysis, and **arrow** package by @arrow enables us to work with parquet files.
 
 For generating compact and informative summaries of our data, we utilized the **skimr** package by @skimr, which provided a flexible overview of the dataset. The **knitr** package by @knitr facilitated the dynamic report generation, allowing us to seamlessly integrate analysis results into our documentation.
 

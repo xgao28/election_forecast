@@ -7,6 +7,13 @@
 
 #### Workspace setup ####
 library(tidyverse)
+if (!requireNamespace("arrow", quietly = TRUE)) {
+  install.packages("arrow")
+}
+
+# Load the arrow package
+library(arrow)
+
 
 #### Clean data ####
 data <- read_csv("data/01-raw_data/president_polls.csv")
@@ -46,5 +53,8 @@ data <- data %>%
 
 
 #### Save data ####
-write_csv(data, "data/02-analysis_data/cleaned_president_polls.csv")
+# write_csv(data, "data/02-analysis_data/cleaned_president_polls.csv")
 
+
+# Write the data to a Parquet file
+write_parquet(data, "data/02-analysis_data/cleaned_president_polls.parquet")
