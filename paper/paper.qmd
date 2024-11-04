@@ -27,6 +27,8 @@ library(GGally)
 library(dplyr)
 library(broom)
 library(styler)
+library(lubridate)
+library(validate)
 ```
 
 
@@ -56,6 +58,8 @@ data <- read.csv("../data/02-analysis_data/cleaned_president_polls.csv")
 # Data {#sec-data}
 
 ## Dataset Overview
+
+The dataset by @fivethirtyeight2024 comprises 16,867 rows and 52 columns, offering a detailed representation of polling data relevant to electoral analysis. To derive the percentage of support for each choice from the pollster, the raw vote counts associated with each candidate or option are normalized by dividing them by the total sample size for that particular poll. This calculation converts the raw counts into percentages (pct), allowing for a clearer comparison of candidate support across different polls and facilitating more straightforward interpretations of public sentiment regarding the electoral options presented.
 
 This study leverages a dataset of polling data for the 2024 U.S. Presidential Election, focusing on predicting support for the two main candidates, Kamala Harris and Donald Trump. Each entry in the dataset represents results from individual polls, capturing both the timing and geographical scope of polling, which is crucial for analyzing national trends and state-specific shifts, particularly in key swing states. By collating data from multiple polling sources, the dataset captures a broad snapshot of voter sentiment across the country, reflecting variations across time, poll methodologies, and geographic regions.
 
@@ -693,6 +697,22 @@ Below is the full content of the survey to be implemented using Google Forms:
 12. Do you have any additional comments or suggestions?  
 
 Thank you for completing the survey! Your input is greatly appreciated and will help provide insights into the upcoming 2024 election.
+
+Here’s the revised acknowledgments section using "we" and incorporating `@citeR` for R:
+
+
+
+# Acknowledgements
+
+We would like to express our gratitude to the developers and contributors of the R programming language by @citeR and its ecosystem of packages, which have been invaluable in conducting this research. The **tidyverse** collection by @tidyverse, particularly its extensive functionality for data manipulation and visualization, has greatly enhanced the clarity and effectiveness of our analysis.
+
+For generating compact and informative summaries of our data, we utilized the **skimr** package by @skimr, which provided a flexible overview of the dataset. The **knitr** package by @knitr facilitated the dynamic report generation, allowing us to seamlessly integrate analysis results into our documentation.
+
+To enhance our visualizations, we employed **GGally** by @ggally, an extension of **ggplot2**, which allowed for more complex and informative graphics . The **dplyr** package by @dplyr was instrumental in data manipulation, enabling efficient data transformation and summarization. For converting statistical results into tidy formats, we relied on the **broom** package by @broom, which simplified the reporting of statistical outputs .
+
+We also utilized **styler** by @styler to maintain a clean and readable codebase, ensuring that our R scripts adhered to best practices for code formatting. The **lubridate** package by @lubridate simplified the handling of date and time data, which was crucial for temporal analyses . Lastly, the **validate** package by @validate played a key role in ensuring the integrity and validity of our data throughout the research process.
+
+The contributions of these packages have greatly enriched our work, and we appreciate the effort of the R community in maintaining and enhancing these resources.
 
 
 # References
