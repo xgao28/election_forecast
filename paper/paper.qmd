@@ -60,11 +60,11 @@ data <- read_parquet("../data/02-analysis_data/cleaned_president_polls.parquet")
 
 ## Dataset Overview
 
-The dataset by @fivethirtyeight2024 comprises 16,867 rows and 52 columns, offering a detailed representation of polling data relevant to electoral analysis. To derive the percentage of support for each choice from the pollster, the raw vote counts associated with each candidate or option are normalized by dividing them by the total sample size for that particular poll. This calculation converts the raw counts into percentages (pct), allowing for a clearer comparison of candidate support across different polls and facilitating more straightforward interpretations of public sentiment regarding the electoral options presented.
+The dataset by @fivethirtyeight2024 provides comprehensive polling data for the U.S. Presidential Election, originally containing 16,867 rows and 52 columns. This raw data has been processed to yield a more focused dataset of 5,187 entries and 11 columns, which is used for future analysis. A detailed explanatory analysis and statistical summaries are mentioned in @sec-eda. The cleaned dataset includes essential details necessary for modeling and forecasting electoral outcomes.
 
-This study leverages the dataset of polling data for the 2024 U.S. Presidential Election, focusing on predicting support for the two main candidates, Kamala Harris and Donald Trump. Each entry in the dataset represents results from individual polls, capturing both the timing and geographical scope of polling, which is crucial for analyzing national trends and state-specific shifts, particularly in key swing states. By collating data from multiple polling sources, the dataset captures a broad snapshot of voter sentiment across the country, reflecting variations across time, poll methodologies, and geographic regions.
+Each row in the dataset represents the outcome of one candidate in a poll, capturing both the poll date, location, estimated quality of the pollster, and the questions mentioned in the poll, which is instrumental in tracking national trends and observing variations across different states, particularly swing states. Polling data from a variety of sources is aggregated, offering a broad view of voter sentiment across diverse regions and demographic groups, as well as over time.
 
-The outcome variable, **Polling Percentage ("pct")**, represents the percentage of respondents in each poll who indicate support for either Harris or Trump. This variable is central to our analysis, as it reflects the changing landscape of voter sentiment and serves as the basis for our forecasts.
+The primary outcome variable, **Polling Percentage ("pct")**, represents the percentage of poll respondents supporting either Kamala Harris or Donald Trump in each poll. This measure, derived by normalizing each candidate’s vote count by the total sample size of each poll, provides a standardized way to compare support levels across polls, enabling a clearer analysis of voter preferences and shifts in public opinion.
 
 ## Predictor and Additional Variables
 
@@ -86,7 +86,7 @@ Each variable in the dataset is constructed to accurately reflect polling charac
 
 To enhance interpretability and prediction accuracy, we adjusted the dataset by scaling polling percentages to reflect each poll’s sample size, multiplying average support by sample size, and normalizing by 0.01. This process ensures that larger samples contribute more meaningfully to the model’s overall prediction, thus offering a balanced representation of likely voting intentions.
 
-## Exploratory Data Analysis and Summary Statistics
+## Exploratory Data Analysis and Summary Statistics{#sec-eda}
 
 ### Multicollinearity Considerations
 ```{r pairplot}
