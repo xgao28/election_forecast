@@ -62,7 +62,7 @@ data <- read_parquet("../data/02-analysis_data/cleaned_president_polls.parquet")
 
 The dataset by @fivethirtyeight2024 comprises 16,867 rows and 52 columns, offering a detailed representation of polling data relevant to electoral analysis. To derive the percentage of support for each choice from the pollster, the raw vote counts associated with each candidate or option are normalized by dividing them by the total sample size for that particular poll. This calculation converts the raw counts into percentages (pct), allowing for a clearer comparison of candidate support across different polls and facilitating more straightforward interpretations of public sentiment regarding the electoral options presented.
 
-This study leverages a dataset of polling data for the 2024 U.S. Presidential Election, focusing on predicting support for the two main candidates, Kamala Harris and Donald Trump. Each entry in the dataset represents results from individual polls, capturing both the timing and geographical scope of polling, which is crucial for analyzing national trends and state-specific shifts, particularly in key swing states. By collating data from multiple polling sources, the dataset captures a broad snapshot of voter sentiment across the country, reflecting variations across time, poll methodologies, and geographic regions.
+This study leverages the dataset of polling data for the 2024 U.S. Presidential Election, focusing on predicting support for the two main candidates, Kamala Harris and Donald Trump. Each entry in the dataset represents results from individual polls, capturing both the timing and geographical scope of polling, which is crucial for analyzing national trends and state-specific shifts, particularly in key swing states. By collating data from multiple polling sources, the dataset captures a broad snapshot of voter sentiment across the country, reflecting variations across time, poll methodologies, and geographic regions.
 
 The outcome variable, **Polling Percentage ("pct")**, represents the percentage of respondents in each poll who indicate support for either Harris or Trump. This variable is central to our analysis, as it reflects the changing landscape of voter sentiment and serves as the basis for our forecasts.
 
@@ -455,7 +455,7 @@ kable(intercept_wide)
 ```
 
 ## Electoral Vote Projections
-Integrating the swing state projections with solid state predictions, the Primary Model estimates the electoral vote totals for each candidate. Kamala Harris is projected to win 292 electoral votes, surpassing the 270-vote threshold required to secure victory. Donald Trump, by comparison, is projected to receive 246 electoral votes. This projection, based on aggregating state-level outcomes, suggests that Harris has a favorable chance of achieving the necessary electoral college majority if current polling trends continue. The model indicates that Harris’s projected wins in swing states like Wisconsin, Michigan, and Pennsylvania could be critical to her securing an electoral majority.
+Integrating the swing state projections with solid state predictions, the Primary Model estimates the electoral vote totals for each candidate. Kamala Harris is projected to win 292 electoral votes, surpassing the 270-vote threshold required to secure victory. Donald Trump, by comparison, is projected to receive 246 electoral votes, as shown in @tbl-res and @fig-result .This projection, based on aggregating state-level outcomes, suggests that Harris has a favorable chance of achieving the necessary electoral college majority if current polling trends continue. The model indicates that Harris’s projected wins in swing states like Wisconsin, Michigan, and Pennsylvania could be critical to her securing an electoral majority.
 
 These results from both the Baseline and Primary Models provide distinct perspectives on the likely outcome of the 2024 U.S. Presidential Election. The Baseline Model projects a national-level popular vote advantage for Harris, while the Primary Model’s state-based approach points to an electoral college path for her, albeit with highly competitive results in key swing states that remain essential to the final outcome.
 
@@ -463,6 +463,8 @@ These results from both the Baseline and Primary Models provide distinct perspec
 #| echo: false
 #| message: false
 #| warning: false
+#| label: tbl-res
+#| tbl-cap: Predicted Electoral Votes for Each Candidate
 solid_state_votes <- data.frame(
   Candidate = c("Harris", "Trump"),
   Solid_State = c(226, 219)
@@ -481,7 +483,7 @@ total_votes <- solid_state_votes %>%
   rename(`Solid State` = Solid_State, `Predicted Swing State` = Predicted_Swing_State_Votes, `Total Predicted Votes` = total)
 
 # View the results
-kable(total_votes, caption = "Predicted Electoral Votes for Each Candidate")
+kable(total_votes)
 
 ```
 
